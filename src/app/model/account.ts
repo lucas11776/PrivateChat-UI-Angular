@@ -4,3 +4,9 @@ export interface Register {
     password:string;
     confirm_password:string;
 }
+
+export interface RegisterResponse {
+    status:boolean,
+    message:string;
+    data: Register;
+}

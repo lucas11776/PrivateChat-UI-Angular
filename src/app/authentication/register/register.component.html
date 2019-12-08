@@ -2,7 +2,7 @@
 <div class="register">
     <div class="outer-container p-3">
         <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-            <form [formGroup]="registerForm" class="text-center border border-light p-5 bg-white shadow-lg">
+            <form [formGroup]="form" class="text-center border border-light p-5 bg-white shadow-lg">
                 <p class="h4 mb-5">Join The <i class="users icon"></i> Community.</p>
                 <div class="row">
                     <div class="col-lg-6 mb-4">
@@ -10,16 +10,16 @@
                         <input type="text" 
                                 id="username" 
                                 class="form-control"
-                                [ngClass]="{'is-invalid': !registerForm.controls.username.pristine && registerForm.controls.username.invalid}"
+                                [ngClass]="{'is-invalid': !form.controls.username.pristine && form.controls.username.invalid}"
                                 formControlName="username"
                                 placeholder="Username">
                         <p class="invalid-feedback text-left">
-                            <span *ngIf="registerForm.controls.username.errors?.required">Username is required.</span>
-                            <!-- <span *ngIf="registerForm.controls.username.errors?.minLength?.actualLength < registerForm.controls.username.errors?.minLength?.requiredlLength">
-                                Username must be at least {{ registerForm.controls.username.errors?.minLength?.requiredLength }} characters long.
+                            <span *ngIf="form.controls.username.errors?.required">Username is required.</span>
+                            <!-- <span *ngIf="form.controls.username.errors?.minLength?.actualLength < form.controls.username.errors?.minLength?.requiredlLength">
+                                Username must be at least {{ form.controls.username.errors?.minLength?.requiredLength }} characters long.
                             </span>
-                            <span *ngIf="registerForm.controls.username.errors?.maxLength?.actualLength < registerForm.controls.username.errors?.maxLength?.requiredlLength">
-                                Username must have maximum of {{ registerForm.controls.username.errors?.maxLength?.requiredlLength }} characters.
+                            <span *ngIf="form.controls.username.errors?.maxLength?.actualLength < form.controls.username.errors?.maxLength?.requiredlLength">
+                                Username must have maximum of {{ form.controls.username.errors?.maxLength?.requiredlLength }} characters.
                             </span> -->
                         </p>
                     </div>
@@ -28,37 +28,37 @@
                         <input type="email" 
                                id="email" 
                                class="form-control"
-                               [ngClass]="{'is-invalid': !registerForm.controls.email.pristine && registerForm.controls.email.invalid}"
+                               [ngClass]="{'is-invalid': !form.controls.email.pristine && form.controls.email.invalid}"
                                formControlName="email"
                                placeholder="Email">
                         <p class="invalid-feedback text-left">
-                            <span *ngIf="registerForm.controls.email.errors?.required">Email is required.</span>
-                            <span *ngIf="registerForm.controls.email.errors?.email">Invalid email address..</span>
+                            <span *ngIf="form.controls.email.errors?.required">Email is required.</span>
+                            <span *ngIf="form.controls.email.errors?.email">Invalid email address..</span>
                         </p>
                     </div>
                 </div>
                 <!-- Password -->
                 <input type="password" 
-                        id="defaultRegisterFormPassword" 
+                        id="defaultformPassword" 
                         class="form-control"
                         [ngClass]="{
-                            'is-invalid': !registerForm.controls.password.pristine && registerForm.controls.password.invalid,
-                            'mb-4': !registerForm.controls.password.pristine && registerForm.controls.password.valid
+                            'is-invalid': !form.controls.password.pristine && form.controls.password.invalid,
+                            'mb-4': !form.controls.password.pristine && form.controls.password.valid
                         }"
                         formControlName="password"
                         placeholder="Password" 
-                        aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                        aria-describedby="defaultformPasswordHelpBlock">
                 <p class="invalid-feedback text-left">
-                    <span *ngIf="registerForm.controls.password.errors?.required">Password is required.</span>
-                    <span *ngIf="registerForm.controls.password.errors?.minLength?.actualLength < registerForm.controls.password.errors?.minLength?.actualLength">
+                    <span *ngIf="form.controls.password.errors?.required">Password is required.</span>
+                    <span *ngIf="form.controls.password.errors?.minLength?.actualLength < form.controls.password.errors?.minLength?.actualLength">
                         Password must be 6 characters long.
                     </span>
-                    <span *ngIf="registerForm.controls.password.errors?.maxLength">
+                    <span *ngIf="form.controls.password.errors?.maxLength">
                         Password must have maximum of 20 characters.
                     </span>
                 </p>
-                <small id="defaultRegisterFormPasswordHelpBlock"
-                       *ngIf="registerForm.controls.password.invalid"
+                <small id="defaultformPasswordHelpBlock"
+                       *ngIf="form.controls.password.invalid"
                        class="form-text text-muted mb-4 text-left">
                     At least 5 characters and 1 digit.
                 </small>
@@ -67,16 +67,34 @@
                 <input type="password" 
                         id="defaultRegisterConfirmPassword" 
                         class="form-control"
-                        [ngClass]="{'is-invalid': !registerForm.controls.confirm_password.pristine && registerForm.controls.confirm_password.invalid}"
+                        [ngClass]="{'is-invalid': !form.controls.confirm_password.pristine && form.controls.confirm_password.invalid}"
                         formControlName="confirm_password"
                         placeholder="Confirm Password" 
-                        aria-describedby="defaultRegisterFormPhoneHelpBlock">
+                        aria-describedby="defaultformPhoneHelpBlock">
                 <p class="invalid-feedback text-left">
-                    <span *ngIf="registerForm.controls.confirm_password.errors?.required">Please confirm your password.</span>
+                    <span *ngIf="form.controls.confirm_password.errors?.required">Please confirm your password.</span>
                 </p>
-                <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4 text-left">
+                <small id="defaultformPhoneHelpBlock" class="form-text text-muted mb-4 text-left">
                     Please repeat your password.
                 </small>
+                <!-- Form Response Success -->
+                <div class="ui success message text-left" *ngIf="response?.status == true">
+                    <div class="header tiny">{{ response?.message }}</div>
+                </div>
+                <!-- Form Response Warning -->
+                <div class="ui warning message text-left" *ngIf="response?.status == false">
+                    <div class="header tiny">{{ response?.message }}</div>
+                    <ul class="list">
+                        <li *ngIf="response?.data?.username">{{ response?.data?.username }}</li>
+                        <li *ngIf="response?.data?.email">{{ response?.data?.email }}</li>
+                        <li *ngIf="response?.data?.password">{{ response?.data?.password }}</li>
+                        <li *ngIf="response?.data?.confirm_password">{{ response?.data?.confirm_password }}</li>
+                    </ul>
+                </div>
+                <!-- Form Error -->
+                <div class="ui error message text-left" *ngIf="error">
+                    <div class="header"><i class="life ring icon"></i> {{ error }}</div>
+                </div>
                 <!-- Register button -->
                 <button class="btn btn-info my-4 btn-block" type="submit" (click)="register()">Register</button>
                 <!-- Social follow -->
