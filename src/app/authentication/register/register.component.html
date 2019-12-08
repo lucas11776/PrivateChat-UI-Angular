@@ -2,47 +2,83 @@
 <div class="register">
     <div class="outer-container p-3">
         <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-            <form class="text-center border border-light p-5 bg-white shadow-lg" action="#!">
+            <form [formGroup]="registerForm" class="text-center border border-light p-5 bg-white shadow-lg">
                 <p class="h4 mb-5">Join The <i class="users icon"></i> Community.</p>
                 <div class="row">
                     <div class="col-lg-6 mb-4">
-                        <!-- First name -->
+                        <!-- Username -->
                         <input type="text" 
-                                id="defaultRegisterFormUsername" 
-                                class="form-control is-invalid" 
+                                id="username" 
+                                class="form-control"
+                                [ngClass]="{'is-invalid': !registerForm.controls.username.pristine && registerForm.controls.username.invalid}"
+                                formControlName="username"
                                 placeholder="Username">
                         <p class="invalid-feedback text-left">
-                            <span>Username already exist in PrivateChat database please try new username.</span>
+                            <span *ngIf="registerForm.controls.username.errors?.required">Username is required.</span>
+                            <!-- <span *ngIf="registerForm.controls.username.errors?.minLength?.actualLength < registerForm.controls.username.errors?.minLength?.requiredlLength">
+                                Username must be at least {{ registerForm.controls.username.errors?.minLength?.requiredLength }} characters long.
+                            </span>
+                            <span *ngIf="registerForm.controls.username.errors?.maxLength?.actualLength < registerForm.controls.username.errors?.maxLength?.requiredlLength">
+                                Username must have maximum of {{ registerForm.controls.username.errors?.maxLength?.requiredlLength }} characters.
+                            </span> -->
                         </p>
                     </div>
                     <div class="col-lg-6 mb-4">
-                        <!-- Last name -->
+                        <!-- Email -->
                         <input type="email" 
-                                id="defaultRegisterFormEmail" 
-                                class="form-control" 
-                                placeholder="Email Address">
+                               id="email" 
+                               class="form-control"
+                               [ngClass]="{'is-invalid': !registerForm.controls.email.pristine && registerForm.controls.email.invalid}"
+                               formControlName="email"
+                               placeholder="Email">
+                        <p class="invalid-feedback text-left">
+                            <span *ngIf="registerForm.controls.email.errors?.required">Email is required.</span>
+                            <span *ngIf="registerForm.controls.email.errors?.email">Invalid email address..</span>
+                        </p>
                     </div>
                 </div>
                 <!-- Password -->
                 <input type="password" 
                         id="defaultRegisterFormPassword" 
-                        class="form-control" 
+                        class="form-control"
+                        [ngClass]="{
+                            'is-invalid': !registerForm.controls.password.pristine && registerForm.controls.password.invalid,
+                            'mb-4': !registerForm.controls.password.pristine && registerForm.controls.password.valid
+                        }"
+                        formControlName="password"
                         placeholder="Password" 
                         aria-describedby="defaultRegisterFormPasswordHelpBlock">
-                <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4 text-left">
+                <p class="invalid-feedback text-left">
+                    <span *ngIf="registerForm.controls.password.errors?.required">Password is required.</span>
+                    <span *ngIf="registerForm.controls.password.errors?.minLength?.actualLength < registerForm.controls.password.errors?.minLength?.actualLength">
+                        Password must be 6 characters long.
+                    </span>
+                    <span *ngIf="registerForm.controls.password.errors?.maxLength">
+                        Password must have maximum of 20 characters.
+                    </span>
+                </p>
+                <small id="defaultRegisterFormPasswordHelpBlock"
+                       *ngIf="registerForm.controls.password.invalid"
+                       class="form-text text-muted mb-4 text-left">
                     At least 5 characters and 1 digit.
                 </small>
+                
                 <!-- Phone number -->
                 <input type="password" 
                         id="defaultRegisterConfirmPassword" 
-                        class="form-control" 
+                        class="form-control"
+                        [ngClass]="{'is-invalid': !registerForm.controls.confirm_password.pristine && registerForm.controls.confirm_password.invalid}"
+                        formControlName="confirm_password"
                         placeholder="Confirm Password" 
                         aria-describedby="defaultRegisterFormPhoneHelpBlock">
+                <p class="invalid-feedback text-left">
+                    <span *ngIf="registerForm.controls.confirm_password.errors?.required">Please confirm your password.</span>
+                </p>
                 <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4 text-left">
                     Please repeat your password.
                 </small>
                 <!-- Register button -->
-                <button class="btn btn-info my-4 btn-block" type="submit">Register</button>
+                <button class="btn btn-info my-4 btn-block" type="submit" (click)="register()">Register</button>
                 <!-- Social follow -->
                 <p>Please follow us on :</p>
                 <a href="#" class="mx-2" role="button"><i class="facebook icon light-blue-text"></i></a>
