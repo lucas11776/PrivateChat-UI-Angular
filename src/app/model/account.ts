@@ -10,3 +10,14 @@ export interface RegisterResponse {
     message:string;
     data: Register;
 }
+
+export interface Login {
+    username:string;
+    password:string;
+}
+
+export interface LoginResponse {
+    status:boolean,
+    message:string,
+    data: { token:string }
+}

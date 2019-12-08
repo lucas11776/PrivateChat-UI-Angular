@@ -69,7 +69,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Controller CleanUp
    */
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if(this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

@@ -2,7 +2,10 @@
 <div class="register">
     <div class="outer-container p-3">
         <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-            <form [formGroup]="form" class="text-center border border-light p-5 bg-white shadow-lg">
+            <form [formGroup]="form" class="ui segment text-center border border-light p-5 bg-white shadow-lg">
+                <div class="ui active dimmer" *ngIf="loader" style="width: 100%;">
+                    <div class="ui large text loader">Registering Account...</div>
+                </div>
                 <p class="h4 mb-5">Join The <i class="users icon"></i> Community.</p>
                 <div class="row">
                     <div class="col-lg-6 mb-4">
@@ -79,11 +82,11 @@
                 </small>
                 <!-- Form Response Success -->
                 <div class="ui success message text-left" *ngIf="response?.status == true">
-                    <div class="header tiny">{{ response?.message }}</div>
+                    <i class="user small icon"></i> <p>{{ response?.message }}</p>
                 </div>
                 <!-- Form Response Warning -->
                 <div class="ui warning message text-left" *ngIf="response?.status == false">
-                    <div class="header tiny">{{ response?.message }}</div>
+                    <div class="header">{{ response?.message }}</div>
                     <ul class="list">
                         <li *ngIf="response?.data?.username">{{ response?.data?.username }}</li>
                         <li *ngIf="response?.data?.email">{{ response?.data?.email }}</li>
@@ -92,8 +95,8 @@
                     </ul>
                 </div>
                 <!-- Form Error -->
-                <div class="ui error message text-left" *ngIf="error">
-                    <div class="header"><i class="life ring icon"></i> {{ error }}</div>
+                <div class="ui error message icon text-left" *ngIf="error">
+                    <i class="warning sign icon"></i> <p>{{ error }}</p>
                 </div>
                 <!-- Register button -->
                 <button class="btn btn-info my-4 btn-block" type="submit" (click)="register()">Register</button>
