@@ -99,7 +99,9 @@
                     <i class="warning sign icon"></i> <p>{{ error }}</p>
                 </div>
                 <!-- Register button -->
-                <button class="btn btn-info my-4 btn-block" type="submit" (click)="register()">Register</button>
+                <button class="btn btn-info my-4 btn-block" type="submit" [disabled]="form.invalid" (click)="register()">
+                    Register
+                </button>
                 <!-- Social follow -->
                 <p>Please follow us on :</p>
                 <a href="#" class="mx-2" role="button"><i class="facebook icon light-blue-text"></i></a>
