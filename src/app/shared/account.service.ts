@@ -59,4 +59,20 @@ export class AccountService {
     );
   }
 
+  /**
+   * Check if user is logged out
+   * 
+   * @return An `Observable` of type `Authorization`
+   */
+  loggedout() : Observable<Authorization> {
+    return this.http.get<Authorization>('api/loggedout').pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    );
+  }
+
+  clearToken() {
+    window.sessionStorage.removeItem('token');
+  }
+
 }

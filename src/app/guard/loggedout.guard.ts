@@ -8,7 +8,7 @@ import { AccountService } from '../shared/account.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedinGuard implements CanActivate {
+export class LoggedoutGuard implements CanActivate {
 
   constructor(
     private accountServ: AccountService,
@@ -16,14 +16,14 @@ export class LoggedinGuard implements CanActivate {
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.accountServ.loggedout().pipe(
+    return this.accountServ.loggedin().pipe(
       map(response => {
         if(response.status) {
-          this.router.navigate(['login']);
+          this.router.navigate(['']);
         }
         return response.status;
       })
-    )
+    );
   }
   
 }
