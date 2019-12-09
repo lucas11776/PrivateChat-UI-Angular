@@ -21,3 +21,7 @@ export interface LoginResponse {
     message:string,
     data: { token:string }
 }
+
+export interface Authorization {
+    status:boolean;
+}

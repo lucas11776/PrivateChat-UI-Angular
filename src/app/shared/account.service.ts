@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, delay } from 'rxjs/operators';
 
-import { Register, RegisterResponse, Login, LoginResponse } from '../model/account';
+import { Register, RegisterResponse, Login, LoginResponse, Authorization } from '../model/account';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +45,18 @@ export class AccountService {
       delay(this.requestDelayTime),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
+  }
+
+  /**
+   * Check if user is logged in
+   * 
+   * @return An `Observable` of type `Authorization`
+   */
+  loggedin() : Observable<Authorization> {
+    return this.http.get<Authorization>('api/loggedin').pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    );
   }
 
 }
