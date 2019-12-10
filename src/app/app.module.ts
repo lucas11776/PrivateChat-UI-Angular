@@ -13,7 +13,7 @@ import { SidebarComponent } from './template/sidebar/sidebar.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
