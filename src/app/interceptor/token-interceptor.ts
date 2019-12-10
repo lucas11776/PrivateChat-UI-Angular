@@ -4,10 +4,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http'
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
     intercept (request: HttpRequest<any>, next: HttpHandler) {
-        return next.handle(request.clone({
-            setHeaders: {
-                'token' : window.sessionStorage.getItem('token') ? window.sessionStorage.getItem('token') : '' 
-            }
-        }));
+        const TOKEN = window.sessionStorage.getItem('token') ? window.sessionStorage.getItem('token') : '';
+        return next.handle(request.clone({ setHeaders: { 'token' : TOKEN } }));
     }
 }

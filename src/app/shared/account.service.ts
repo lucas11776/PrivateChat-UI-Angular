@@ -71,6 +71,11 @@ export class AccountService {
     );
   }
 
+  /**
+   * Remove user token from browser session data
+   * 
+   * @return 'NULL'
+   */
   clearToken() {
     window.sessionStorage.removeItem('token');
   }

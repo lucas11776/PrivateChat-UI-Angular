@@ -25,3 +25,9 @@ export interface LoginResponse {
 export interface Authorization {
     status:boolean;
 }
+
+export interface Notification {
+    chats:number;
+    messages:number;
+    
+}

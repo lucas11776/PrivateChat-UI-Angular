@@ -16,9 +16,9 @@ export class LoggedoutGuard implements CanActivate {
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.accountServ.loggedin().pipe(
+    return this.accountServ.loggedout().pipe(
       map(response => {
-        if(response.status) {
+        if(!response.status) {
           this.router.navigate(['']);
         }
         return response.status;
