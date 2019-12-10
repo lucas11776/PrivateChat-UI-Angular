@@ -1,36 +1,36 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+
+import { FriendsService } from '../../shared/friends.service';
+
+import { Friend } from '../../model/friends';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
 
   search:FormControl = new FormControl;
-  searchSubscription:Subscription;
+  searchResults:Friend[];
 
-  constructor() { }
+  constructor(
+    private friendServ: FriendsService
+  ) { }
 
   ngOnInit() {
     this.search.valueChanges.pipe(
-      debounceTime(1500),
-      distinctUntilChanged()
-    )
-    .subscribe(
-      (search) => {
-        console.log(search);
+      debounceTime(1000),
+      distinctUntilChanged(),
+      switchMap((search:string) => this.friendServ.search(search))
+    ).subscribe(
+      (response) => {
+        this.searchResults = response.results;
       }
     )
-  }
-
-  ngOnDestroy() {
-    if(this.searchSubscription) {
-      this.searchSubscription.unsubscribe();
-    }
   }
 
 }

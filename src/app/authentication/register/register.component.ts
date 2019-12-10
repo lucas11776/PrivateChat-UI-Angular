@@ -50,6 +50,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .subscribe(
         (response) => {
           if(response.status) {
+            this.form.reset();
             const timeOut = setTimeout(() => {
               clearTimeout(timeOut);
               this.router.navigate(['login']);
