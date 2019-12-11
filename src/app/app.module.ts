@@ -8,6 +8,7 @@ import { HttpIntercerptor } from './interceptor/index';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { HomeComponent } from './Pages/home/home.component';
 import { SidebarComponent } from './template/sidebar/sidebar.component';
+import { FriendsModule } from './friends/friends.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SidebarComponent } from './template/sidebar/sidebar.component';
     BrowserModule,
     AppRoutingModule,
     AuthenticationModule,
-    HttpClientModule
+    HttpClientModule,
+    FriendsModule
   ],
   providers: [HttpIntercerptor],
   bootstrap: [AppComponent]

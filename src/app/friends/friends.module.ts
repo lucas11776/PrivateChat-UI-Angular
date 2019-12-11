@@ -6,13 +6,15 @@ import { FriendsRoutingModule } from './friends-routing.module';
 import { FriendsComponent } from './friends.component';
 import { SearchComponent } from './search/search.component';
 import { FriendRequestComponent } from '../template/friend-request/friend-request.component';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
   declarations: [
     FriendsComponent,
     SearchComponent,
-    FriendRequestComponent
+    FriendRequestComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,
