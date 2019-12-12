@@ -16,3 +16,10 @@ export interface FriendsChatPreview {
     last_seen:number;
     messages:number;
 }
+
+export interface FriendRequest {
+    profile_picture:string;
+    username:string;
+    created:string;
+    last_seen:number;
+}
