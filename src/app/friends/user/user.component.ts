@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
 
@@ -16,7 +17,8 @@ export class UserComponent implements OnInit {
   requestTime = 200;
 
   constructor(
-    private friendServ: FriendsService
+    private friendServ: FriendsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -25,6 +27,10 @@ export class UserComponent implements OnInit {
         concatMap((_) => this.friendServ.friendsChatPreview())
       ))
     )
+  }
+
+  openChat(username:string) {
+    this.router.navigate(['friends', username]);
   }
 
 }
