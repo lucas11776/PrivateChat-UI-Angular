@@ -6,8 +6,7 @@ import { SidebarComponent } from './template/sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: '', component: SidebarComponent, outlet: 'sidebar' },
-  { path: '', component: HomeComponent },
-  { path: 'chats', loadChildren: () => import('./chats/chats.module').then(m => m.ChatsModule) }
+  { path: '', component: HomeComponent }
 ];
 
 @NgModule({

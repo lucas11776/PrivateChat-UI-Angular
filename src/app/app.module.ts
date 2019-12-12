@@ -10,6 +10,7 @@ import { HomeComponent } from './Pages/home/home.component';
 import { SidebarComponent } from './template/sidebar/sidebar.component';
 import { FriendsModule } from './friends/friends.module';
 import { LastSeenDirective } from './directive/last-seen.directive';
+import { ChatsModule } from './chats/chats.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LastSeenDirective } from './directive/last-seen.directive';
     AppRoutingModule,
     AuthenticationModule,
     HttpClientModule,
-    FriendsModule
+    FriendsModule,
+    ChatsModule
   ],
   providers: [HttpIntercerptor],
   bootstrap: [AppComponent]
