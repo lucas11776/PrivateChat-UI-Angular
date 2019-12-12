@@ -12,9 +12,9 @@ import { FriendsChatPreview } from '../../model/friends';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  
-  friends:Observable<FriendsChatPreview[]>;
-  requestTime = 200;
+
+  friends: Observable<FriendsChatPreview[]>
+  requestTime = 1000;
 
   constructor(
     private friendServ: FriendsService,
@@ -30,7 +30,7 @@ export class UserComponent implements OnInit {
   }
 
   openChat(username:string) {
-    this.router.navigate(['friends', username]);
+    this.router.navigate(['chats', username])
   }
 
 }

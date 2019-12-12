@@ -17,7 +17,7 @@ import { ChatsModule } from './chats/chats.module';
     AppComponent,
     HomeComponent,
     SidebarComponent,
-    LastSeenDirective,
+    LastSeenDirective
   ],
   imports: [
     BrowserModule,

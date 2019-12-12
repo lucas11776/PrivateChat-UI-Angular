@@ -7,19 +7,19 @@
                     <div class="card mb-sm-3 mb-md-0 contacts_card d-xs-none">
                         <div class="card-header">
                             <div class="input-group">
-                                <input type="text" placeholder="Search for a friend..." name="" class="form-control search">
+                                <input type="text" placeholder="Search for a friend..." name=""
+                                    class="form-control search">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text search_btn"><i class="search icon"></i></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body contacts_body">
+                        <div class="card-body contacts">
                             <ul class="contacts w-100">
                                 <li class="" *ngFor="let friend of (friends | async)">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <img [src]="friend.profile_picture"
-                                                class="rounded-circle user_img">
+                                            <img [src]="friend.profile_picture" class="rounded-circle user_img">
                                             <span class="online_icon"></span>
                                         </div>
                                         <div class="user_info w-100">
@@ -29,7 +29,8 @@
                                                     <p>{{ friend.username }} is online</p>
                                                 </div>
                                                 <div class="col-3 pt-2 text-center" *ngIf="friend.messages > 0">
-                                                    <button class="ui circular tiny icon teal button" (click)="openChat(friend.username)">
+                                                    <button class="ui circular tiny icon teal button"
+                                                        (click)="openChat(friend.username)">
                                                         <i class="chat icon"></i>
                                                     </button>
                                                 </div>
