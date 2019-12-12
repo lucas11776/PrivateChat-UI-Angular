@@ -15,13 +15,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
   loggedin:boolean;
   notification:object;
   loggedinSubscription:Subscription;
-  requestTime = 1000; // 1s
+  requestTime = 1000; // miliseconds
 
   constructor(
     private accountServ: AccountService,
     private router: Router
   ) { }
 
+  /**
+   * Initialize an `Observable` that get data from the api every
+   * `requestTime` repeatly.
+   */
   ngOnInit() {
     this.loggedinSubscription = this.accountServ.loggedin().pipe(
       expand((_) => timer(this.requestTime).pipe(
@@ -32,11 +36,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     })
   }
 
+  /**
+   * Reload webpage
+   */
+  reload() {
+    location.reload();
+  }
+
+  /**
+   * Clear token from session window and redirect to home `Route`.
+   */
   logout() {
     this.accountServ.clearToken();
     this.router.navigate(['']);
   }
 
+  /**
+   * `Unsubscribe` to loggedin `Observable`
+   */
   ngOnDestroy() {
     this.loggedinSubscription.unsubscribe();
   }

@@ -9,12 +9,14 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { HomeComponent } from './Pages/home/home.component';
 import { SidebarComponent } from './template/sidebar/sidebar.component';
 import { FriendsModule } from './friends/friends.module';
+import { LastSeenDirective } from './directive/last-seen.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SidebarComponent,
+    LastSeenDirective,
   ],
   imports: [
     BrowserModule,

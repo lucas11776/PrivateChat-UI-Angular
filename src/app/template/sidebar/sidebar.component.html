@@ -21,6 +21,9 @@
     <a class="item" *ngIf="!loggedin" routerLink="register">
         <i class="signup icon"></i> Register
     </a>
+    <a class="item" (click)="reload()">
+        <i class="refresh icon"></i> Reload
+    </a>
     <a class="item" *ngIf="loggedin" routerLink="settings">
         <i class="cogs icon"></i> Settings
     </a>

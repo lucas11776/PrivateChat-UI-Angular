@@ -15,21 +15,23 @@
                         </div>
                         <div class="card-body contacts_body">
                             <ul class="contacts w-100">
-                                <li class="">
+                                <li class="" *ngFor="let friend of (friends | async)">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <img src="./assets/friends/emma.png"
+                                            <img [src]="friend.profile_picture"
                                                 class="rounded-circle user_img">
                                             <span class="online_icon"></span>
                                         </div>
                                         <div class="user_info w-100">
                                             <div class="row">
                                                 <div class="col-9 pb-2">
-                                                    <span>Emma</span>
-                                                    <p>Emma is online</p>
+                                                    <span>{{ friend.username }}</span>
+                                                    <p>{{ friend.username }} is online</p>
                                                 </div>
-                                                <div class="col-3 pt-2 text-center">
-                                                    <button class="ui circular tiny icon teal button"> <i class="chat icon"></i> </button>
+                                                <div class="col-3 pt-2 text-center" *ngIf="friend.message > 0">
+                                                    <a class="ui circular tiny icon teal button" [routerLink]="['chats',friend.username]">
+                                                        <i class="chat icon"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
