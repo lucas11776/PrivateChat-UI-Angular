@@ -23,3 +23,9 @@ export interface FriendRequest {
     created:string;
     last_seen:number;
 }
+
+export interface Response {
+    status:boolean;
+    message:string;
+    data:object;
+}

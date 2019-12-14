@@ -13,6 +13,7 @@ import { FriendsModule } from './friends/friends.module';
 import { LastSeenDirective } from './directive/last-seen.directive';
 import { ChatsModule } from './chats/chats.module';
 import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.component';
+import { InfoModalComponent } from './template/info-modal/info-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.co
     HomeComponent,
     SidebarComponent,
     LastSeenDirective,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    InfoModalComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.co
     SuiModule
   ],
   entryComponents: [
-      ConfirmModalComponent
+      ConfirmModalComponent,
+      InfoModalComponent
   ],
   providers: [HttpIntercerptor],
   bootstrap: [AppComponent]

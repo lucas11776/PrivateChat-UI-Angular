@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { SuiModalService } from 'ng2-semantic-ui';
 
 import { FriendsService } from '../../shared/friends.service';
-
 import { Friend } from '../../model/friends';
+import { ConfirmModal } from '../../template/confirm-modal/confirm-modal.component';
+import { InfoModal } from '../../template/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,8 @@ export class SearchComponent implements OnInit {
   searchResults:Friend[];
 
   constructor(
-    private friendServ: FriendsService
+    private friendServ: FriendsService,
+    private suiModalServ: SuiModalService
   ) { }
 
   ngOnInit() {
@@ -29,6 +31,38 @@ export class SearchComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.searchResults = response.results;
+      }
+    )
+  }
+
+  confirmRequest(username:string) {
+    this.suiModalServ
+      .open(new ConfirmModal('Send Friend Request?', 'Are your sure your want send a friend request to '+username+'.', 'small'))
+      .onApprove(() => this.sendRequest(username))
+      .onDeny(() => {});
+  }
+
+  sendRequest(username:string) {
+    const SUBSCRIPTION = this.friendServ.sendFriendRequest(username).subscribe(
+      (response) => {
+        if(response.status) {
+          this.suiModalServ
+            .open(new InfoModal('Friend Request Sent.', response.message))
+            .onDeny(() => {});
+          this.search.setValue(this.search.value);
+        } else {
+          this.suiModalServ
+            .open(new ConfirmModal('Something Went Wrong Please Try Again...', response.message))
+            .onApprove(() => this.sendRequest(username))
+            .onDeny(() => {});
+        }
+        SUBSCRIPTION.unsubscribe();
+      },
+      (error) => {
+        this.suiModalServ
+          .open(new ConfirmModal('Something went wrong try again...', error))
+          .onApprove(() => this.sendRequest(username))
+          .onDeny(() => {});
       }
     )
   }

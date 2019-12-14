@@ -19,7 +19,27 @@
                         </div>
                         <div class="card-body contacts_body">
                             <ul class="contacts w-100">
-                                <app-friend-request *ngFor="let friend of searchResults" [friend]="friend"></app-friend-request>
+                                <li *ngFor="let friend of searchResults">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img [src]="friend?.profile_picture" class="rounded-circle user_img">
+                                        </div>
+                                        <div class="user_info w-100">
+                                            <div class="row">
+                                                <div class="col-9 pb-2">
+                                                    <span>{{ friend?.username }}</span>
+                                                    <p>{{ friend?.username }} last seen {{ friend?.last_seen | date }}</p>
+                                                </div>
+                                                <div class="col-3 pt-2 text-center">
+                                                    <button class="ui circular tiny icon teal button add friend" 
+                                                            (click)="confirmRequest(friend?.username)">
+                                                        <i class="user icon"></i> <i class="plus icon"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-footer"></div>

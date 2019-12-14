@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import {SuiModal, ComponentModalConfig, ModalSize} from "ng2-semantic-ui"
-
-declare var $ : any;
+import {SuiModal, ComponentModalConfig, ModalSize} from "ng2-semantic-ui";
 
 interface IConfirmModalContext {
     title:string;
@@ -9,7 +7,6 @@ interface IConfirmModalContext {
 }
 
 @Component({
-  selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.css']
 })

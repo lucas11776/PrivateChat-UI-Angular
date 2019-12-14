@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { SearchFriends, FriendsChatPreview } from '../model/friends';
+import { SearchFriends, FriendsChatPreview, Response, Friend, FriendRequest} from '../model/friends';
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +42,21 @@ export class FriendsService {
    * 
    * @return An `Observable` of type `FriendRequest[]`
    */
-  friendsRequests() {
-    return this.http.get<any>('api/friends/requests').pipe(
+  friendsRequests() : Observable<FriendRequest[]> {
+    return this.http.get<FriendRequest[]>('api/friends/requests').pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message)
+      )
+    );
+  }
+
+  /**
+   * 
+   * @param username friend username
+   * @return An `Observable` of type `Response`
+   */
+  sendFriendRequest(username:string) : Observable<Response> {
+    return this.http.post<Response>('api/friends/request/send', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message)
       )
@@ -53,10 +66,11 @@ export class FriendsService {
   /**
    * Accept friends requests
    * 
+   * @param username friend username
    * @return AN `Observable` of type ``
    */
-  acceptFriendRequest(username:string) {
-    return this.http.post('api/friends/requests/accept', {'username': username}).pipe(
+  acceptFriendRequest(username:string) : Observable<Response> {
+    return this.http.post<Response>('api/friends/requests/accept', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
