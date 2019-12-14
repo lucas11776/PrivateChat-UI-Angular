@@ -12,10 +12,10 @@ import { AccountService } from '../../shared/account.service';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
-  loggedin:boolean;
-  notification:object;
-  loggedinSubscription:Subscription;
-  requestTime = 1000; // miliseconds
+  loggedin: boolean;
+  notification: object;
+  loggedinSubscription: Subscription;
+  requestTime = 10000; // miliseconds
 
   constructor(
     private accountServ: AccountService,
@@ -27,20 +27,29 @@ export class SidebarComponent implements OnInit, OnDestroy {
    * `requestTime` repeatly.
    */
   ngOnInit() {
+    this.loggedIn();
+  }
+
+  /**
+   * Check if user logged in
+   */
+  loggedIn() {
     this.loggedinSubscription = this.accountServ.loggedin().pipe(
       expand((_) => timer(this.requestTime).pipe(
         concatMap((_) => this.accountServ.loggedin())
       ))
-    ).subscribe((response) => {
-      this.loggedin = response.status;
-    })
+    ).subscribe(
+      response => {
+        this.loggedin = response.status;
+      },
+      error => {
+        this.loggedIn();
+      }
+    )
   }
 
-  /**
-   * Reload webpage
-   */
-  reload() {
-    location.reload();
+  getNotification() {
+
   }
 
   /**

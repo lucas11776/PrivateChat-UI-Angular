@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -21,8 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private accountServ: AccountService,
-    private formBuilder: FormBuilder,
-    private router: Router
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -41,7 +39,7 @@ export class LoginComponent implements OnInit {
         (response) => {
           if(response.status) {
             window.sessionStorage.setItem('token', response.data.token);
-            this.router.navigate(['']);
+            location.replace('');
           }
           this.response = response;
           this.loader = false;

@@ -17,7 +17,9 @@ body {
   background-color: #e9ecef;
 }
 
-
+.ui.modal {
+	height: auto;
+}
 
 /*******************************
       ui.button.add.friend

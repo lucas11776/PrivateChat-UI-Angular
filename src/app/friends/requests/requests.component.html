@@ -1,27 +1,30 @@
 <!-- Friend Requests -->
 <div class="chats friend-requests">
-        <div class="inner-container">
-            <div class="container-fluid h-100">
-                <div class="row justify-content-center h-100">
-                    <div class="col-sm-12 col-md-8 col-xl-6 chat">
-                        <div class="card mb-sm-3 mb-md-0 contacts_card d-xs-none">
-                            <div class="card-header">
-                                <div class="input-group">
-                                    <input type="text" placeholder="Search for a friend request..." name="" class="form-control search">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text search_btn"><i class="search icon"></i></span>
-                                    </div>
+    <div class="inner-container">
+        <div class="container-fluid h-100">
+            <div class="row justify-content-center h-100">
+                <div class="col-sm-12 col-md-8 col-xl-6 chat">
+                    <div class="card mb-sm-3 mb-md-0 contacts_card d-xs-none">
+                        <div class="card-header">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search for a friend request..." name="" class="form-control search">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text search_btn"><i class="search icon"></i></span>
                                 </div>
                             </div>
-                            <div class="card-body contacts_body">
-                                <ul class="contacts w-100">
-                                    <app-friend-request *ngFor="let request of (friendsRequests | async)" [friend]="request"></app-friend-request>
-                                </ul>
-                            </div>
-                            <div class="card-footer"></div>
                         </div>
+                        <div class="card-body contacts_body">
+                            <ul class="contacts w-100">
+                                <app-friend-request *ngFor="let request of (friendsRequests | async)" 
+                                                    [friend]="request"
+                                                    (accept)="confirmAccept($event)"
+                                                    (decline)="confirmDecline($event)"></app-friend-request>
+                            </ul>
+                        </div>
+                        <div class="card-footer"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

@@ -1,9 +1,6 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Friend } from '../../model/friends';
-import { EventEmitter } from 'events';
-
-declare var $:any;
 
 @Component({
   selector: 'app-friend-request',
