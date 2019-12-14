@@ -6,7 +6,9 @@ import { SidebarComponent } from './template/sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: '', component: SidebarComponent, outlet: 'sidebar' },
-  { path: '', component: HomeComponent }
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '***', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({

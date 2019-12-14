@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 
 import { Friend } from '../../model/friends';
+import { EventEmitter } from 'events';
+
+declare var $:any;
 
 @Component({
   selector: 'app-friend-request',
@@ -10,18 +13,19 @@ import { Friend } from '../../model/friends';
 export class FriendRequestComponent implements OnInit {
 
   @Input('friend') friend:Friend;
+  @Output('accept') acceptRequest = new EventEmitter();
+  @Output('decline') declineRequest = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+  
+  accept() {
+    this.acceptRequest.emit(this.friend.username);
   }
 
-  confirm() {
-
-  }
-
-  request() {
-    
+  decline() {
+    this.declineRequest.emit(this.friend.username);
   }
 
 }

@@ -21,6 +21,7 @@ import { RequestsComponent } from './requests/requests.component';
     CommonModule,
     FriendsRoutingModule,
     ReactiveFormsModule
-  ]
+  ],
+  entryComponents: [ ]
 })
 export class FriendsModule { }

@@ -34,7 +34,7 @@ export class FriendsService {
     return this.http.get<FriendsChatPreview[]>('api/friends').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
-    )
+    );
   }
 
   /**
@@ -47,6 +47,18 @@ export class FriendsService {
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message)
       )
+    );
+  }
+
+  /**
+   * Accept friends requests
+   * 
+   * @return AN `Observable` of type ``
+   */
+  acceptFriendRequest(username:string) {
+    return this.http.post('api/friends/requests/accept', {'username': username}).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
     );
   }
 

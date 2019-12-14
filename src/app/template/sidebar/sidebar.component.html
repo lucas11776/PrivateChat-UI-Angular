@@ -1,30 +1,30 @@
 <!-- Sidebar -->
 <nav class="ui inverted labeled icon left inline vertical sidebar menu uncover visible" id="sidebar">
-    <a class="item" routerLink="">
+    <a class="item" [routerLink]="['home']" [routerLinkActive]="['active']">
         <i class="home icon"></i> Home
     </a>
-    <a class="item" *ngIf="loggedin" routerLink="chats"><i class="chat icon">
-        <i class="ui circular teal label">2</i></i> Chats 
+    <a class="item" *ngIf="loggedin" [routerLink]="['chats']" [routerLinkActive]="['active']">
+        <i class="chat icon"><i class="ui circular teal label">2</i></i> Chats 
     </a>
-    <a class="item" *ngIf="loggedin" routerLink="friends">
+    <a class="item" *ngIf="loggedin" [routerLink]="['friends']" [routerLinkActive]="['active']">
         <i class="users icon"><i class="ui circular teal label">2</i></i> Friends
     </a>
-    <a class="item" *ngIf="loggedin" routerLink="requests">
+    <a class="item" *ngIf="loggedin" [routerLink]="['requests']" [routerLinkActive]="['active']">
         <i class="smile icon"><i class="ui circular teal label">2</i></i>Requests
     </a>
-    <a class="item" *ngIf="loggedin" routerLink="search">
+    <a class="item" *ngIf="loggedin" [routerLink]="['search']" [routerLinkActive]="['active']">
         <i class="search icon"></i> Search
     </a>
-    <a class="item" *ngIf="!loggedin" routerLink="login">
+    <a class="item" *ngIf="!loggedin" [routerLink]="['login']" [routerLinkActive]="['active']">
         <i class="user icon"></i> Login
     </a>
-    <a class="item" *ngIf="!loggedin" routerLink="register">
+    <a class="item" *ngIf="!loggedin" [routerLink]="['register']" [routerLinkActive]="['active']">
         <i class="signup icon"></i> Register
     </a>
     <a class="item" (click)="reload()">
         <i class="refresh icon"></i> Reload
     </a>
-    <a class="item" *ngIf="loggedin" routerLink="settings">
+    <a class="item" *ngIf="loggedin" [routerLink]="['settings']" [routerLinkActive]="['active']">
         <i class="cogs icon"></i> Settings
     </a>
     <a class="item" *ngIf="loggedin" (click)="logout()">
