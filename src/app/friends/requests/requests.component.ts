@@ -7,6 +7,7 @@ import { SuiModalService } from 'ng2-semantic-ui';
 import { FriendsService } from '../../shared/friends.service';
 import { FriendRequest } from '../../model/friends';
 import { ConfirmModal } from '../../template/confirm-modal/confirm-modal.component';
+import { InfoModal, InfoModalComponent } from '../../template/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-requests',
@@ -60,7 +61,16 @@ export class RequestsComponent implements OnInit {
   accept(username:string) {
     const SUBSCRIPTION = this.friendsServ.acceptFriendRequest(username).subscribe(
       response => {
-        console.info(response);
+        if(response.status) {
+          this.suiModalServ
+            .open(new InfoModal('Friend Request Accepted...', response.message))
+            .onDeny(() => this.router.navigate(['chats', username]))
+        } else {
+          this.suiModalServ
+            .open(new ConfirmModal('Something went wrong...', response.message))
+            .onApprove(() => this.accept(username))
+            .onDeny(() => {})
+        }
       },
       error => {
 
