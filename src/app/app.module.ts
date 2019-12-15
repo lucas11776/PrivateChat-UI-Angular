@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SuiModule } from 'ng2-semantic-ui';
 
@@ -27,6 +28,8 @@ import { InfoModalComponent } from './template/info-modal/info-modal.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     AuthenticationModule,
     HttpClientModule,
     FriendsModule,

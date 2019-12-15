@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { SearchFriends, FriendsChatPreview, Response, Friend, FriendRequest} from '../model/friends';
+import { SearchFriends, FriendsChatPreview, Response, Friend, FriendRequest, FriendMessageCout} from '../model/friends';
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +28,22 @@ export class FriendsService {
   /**
    * Get user friends chats preview from api
    * 
-   * @return An `Observable` of type `Friend[]`
+   * @return An `Observable` of type `FriendsChatPreview[]`
    */
   friendsChatPreview() : Observable<FriendsChatPreview[]> {
-    return this.http.get<FriendsChatPreview[]>('api/friends').pipe(
+    return this.http.get<FriendsChatPreview[]>('api/friends/chat/preview').pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    );
+  }
+
+  /**
+   * Get user friends chats preview from api
+   * 
+   * @return An `Observable` of type `FriendMessageCout[]`
+   */
+  friends() : Observable<FriendMessageCout[]> {
+    return this.http.get<FriendMessageCout[]>('api/friends').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );

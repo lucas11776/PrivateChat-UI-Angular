@@ -4,7 +4,7 @@ import { Observable, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
 
 import { FriendsService } from '../../shared/friends.service';
-import { FriendsChatPreview } from '../../model/friends';
+import { FriendMessageCout } from '../../model/friends';
 
 @Component({
   selector: 'app-user',
@@ -13,8 +13,9 @@ import { FriendsChatPreview } from '../../model/friends';
 })
 export class UserComponent implements OnInit {
 
-  friends: Observable<FriendsChatPreview[]>
-  requestTime = 1000;
+  friends$: Observable<FriendMessageCout[]>;
+  requestTime = 3000;
+  search:string;
 
   constructor(
     private friendServ: FriendsService,
@@ -22,9 +23,9 @@ export class UserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.friends = this.friendServ.friendsChatPreview().pipe(
+    this.friends$ = this.friendServ.friends().pipe(
       expand((_) => timer(this.requestTime).pipe(
-        concatMap((_) => this.friendServ.friendsChatPreview())
+        concatMap((_) => this.friendServ.friends())
       ))
     )
   }

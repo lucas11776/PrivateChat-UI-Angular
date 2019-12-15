@@ -10,11 +10,20 @@ export interface SearchFriends {
     results:Friend[]
 }
 
-export interface FriendsChatPreview {
+export interface FriendMessageCout {
     profile_picture:string;
     username:string;
     last_seen:number;
     messages:number;
+}
+
+export interface FriendsChatPreview {
+    profile_picture:string;
+    username:string;
+    last_seen:number;
+    number_messages:number;
+    type:string;
+    content:string;
 }
 
 export interface FriendRequest {

@@ -7,17 +7,19 @@
                     <div class="card mb-sm-3 mb-md-0 contacts_card d-xs-none">
                         <div class="card-header">
                             <div class="input-group">
-                                <input type="text" placeholder="Search for a friend..." name=""
-                                    class="form-control search">
+                                <input type="search"
+                                       placeholder="Search for a friend..."
+                                       class="form-control search"
+                                       [(ngModel)]="search">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text search_btn"><i class="search icon"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body contacts">
-                            <ul class="contacts w-100">
-                                <li class="" *ngFor="let friend of (friends | async)">
-                                    <div class="d-flex bd-highlight">
+                            <ul class="contacts w-100" *ngIf="(friends$ | async) as friends; else loading">
+                                <li class="pointer" *ngFor="let friend of friends" >
+                                    <div class="d-flex bd-highlight" (click)="openChat(friend.username)">
                                         <div class="img_cont">
                                             <img [src]="friend.profile_picture" class="rounded-circle user_img">
                                             <span class="online_icon"></span>
@@ -28,9 +30,8 @@
                                                     <span>{{ friend.username }}</span>
                                                     <p>{{ friend.username }} is online</p>
                                                 </div>
-                                                <div class="col-3 pt-2 text-center" *ngIf="friend.messages > 0">
-                                                    <button class="ui circular tiny icon teal button"
-                                                        (click)="openChat(friend.username)">
+                                                <div class="col-3 pt-2 text-center">
+                                                    <button class="ui circular tiny icon teal button" (click)="openChat(friend.username)" *ngIf="friend.messages > 0">
                                                         <i class="chat icon"></i>
                                                     </button>
                                                 </div>
@@ -39,6 +40,9 @@
                                     </div>
                                 </li>
                             </ul>
+                            <ng-template #loading>
+                               <h1 class="text-white">Loading Friends</h1>
+                            </ng-template>
                         </div>
                         <div class="card-footer"></div>
                     </div>

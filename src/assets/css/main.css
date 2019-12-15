@@ -13,6 +13,10 @@ body {
   width: 100%;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .bg-grey {
   background-color: #e9ecef;
 }
