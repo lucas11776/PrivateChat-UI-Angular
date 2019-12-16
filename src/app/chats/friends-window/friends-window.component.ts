@@ -3,15 +3,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 import { expand, concatMap, map } from 'rxjs/operators';
 
-import { FriendsService } from '../shared/friends.service';
-import { FriendsChatPreview } from '../model/friends';
+import { FriendsService } from '../../shared/friends.service';
+import { FriendsChatPreview } from '../../model/friends';
 
 @Component({
-  selector: 'app-chats',
-  templateUrl: './chats.component.html',
-  styleUrls: ['./chats.component.css']
+  selector: 'app-friends-window',
+  templateUrl: './friends-window.component.html',
+  styleUrls: ['./friends-window.component.css']
 })
-export class ChatsComponent implements OnInit {
+export class FriendsWindowComponent implements OnInit {
 
   friends: Observable<FriendsChatPreview[]>
   requestTime = 1000;
@@ -33,5 +33,9 @@ export class ChatsComponent implements OnInit {
       ))
     )
   }
+
+  openChat(username:string) {
+    this.router.navigate(['chats', username]);
+  } 
 
 }
