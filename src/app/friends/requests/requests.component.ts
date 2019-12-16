@@ -71,6 +71,7 @@ export class RequestsComponent implements OnInit {
             .onApprove(() => this.accept(username))
             .onDeny(() => {})
         }
+        SUBSCRIPTION.unsubscribe();
       },
       error => {
 
@@ -84,7 +85,24 @@ export class RequestsComponent implements OnInit {
    * @param username friend username
    */
   decline(username:string) {
+    const SUBSCRIPTION = this.friendsServ.declineFriendRequest(username).subscribe(
+      response => {
+        if(response.status) {
+          this.suiModalServ
+            .open(new InfoModal('Friend Request Declined...', response.message))
+            .onDeny(() => this.ngOnInit())
+        } else {
+          this.suiModalServ
+            .open(new ConfirmModal('Something went wrong...', response.message))
+            .onApprove(() => this.decline(username))
+            .onDeny(() => {})
+        }
+        SUBSCRIPTION.unsubscribe();
+      },
+      error => {
 
+      }
+    )
   }
 
 }

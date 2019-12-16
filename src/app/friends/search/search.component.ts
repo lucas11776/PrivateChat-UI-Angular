@@ -49,7 +49,9 @@ export class SearchComponent implements OnInit {
           this.suiModalServ
             .open(new InfoModal('Friend Request Sent.', response.message))
             .onDeny(() => {});
-          this.search.setValue(this.search.value);
+          const SEARCH = this.search.value;
+          this.ngOnInit();
+          this.search.setValue(SEARCH);
         } else {
           this.suiModalServ
             .open(new ConfirmModal('Something Went Wrong Please Try Again...', response.message))

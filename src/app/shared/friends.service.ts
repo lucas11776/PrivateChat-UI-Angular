@@ -68,7 +68,7 @@ export class FriendsService {
    * @return An `Observable` of type `Response`
    */
   sendFriendRequest(username:string) : Observable<Response> {
-    return this.http.post<Response>('api/friends/request/send', {'username':username}).pipe(
+    return this.http.post<Response>('api/friends/requests/send', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message)
       )
@@ -83,6 +83,19 @@ export class FriendsService {
    */
   acceptFriendRequest(username:string) : Observable<Response> {
     return this.http.post<Response>('api/friends/requests/accept', {'username':username}).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    );
+  }
+
+  /**
+   * Accept friends requests
+   * 
+   * @param username friend username
+   * @return AN `Observable` of type ``
+   */
+  declineFriendRequest(username:string) : Observable<Response> {
+    return this.http.post<Response>('api/friends/requests/decline', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
