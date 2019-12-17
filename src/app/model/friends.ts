@@ -21,7 +21,8 @@ export interface FriendsChatPreview {
     profile_picture:string;
     username:string;
     last_seen:number;
-    number_messages:number;
+    messages:number;
+    text_created:string;
     type:string;
     content:string;
 }
