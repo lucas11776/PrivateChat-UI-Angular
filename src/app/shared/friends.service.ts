@@ -26,6 +26,19 @@ export class FriendsService {
   }
 
   /**
+   * Check if user is friends with username or account
+   * 
+   * @param username Friend Username
+   * @return An `Observable` of type `Response`
+   */
+  friendsUser(username:string) {
+    return this.http.get<Response>('api/friends/user/'+username).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
+  }
+
+  /**
    * Get user friends chats preview from api
    * 
    * @return An `Observable` of type `FriendsChatPreview[]`
