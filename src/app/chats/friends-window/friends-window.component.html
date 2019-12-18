@@ -8,8 +8,15 @@
         <div class="user_info w-100 pr-1">
             <div class="row">
                 <div class="col-9 pb-2">
-                    <span>{{ friend.username }}</span>
-                    <p>{{ friend.username }} is online</p>
+                    <span class="text-capitalize">{{ friend.username }}</span>
+                    <div [ngSwitch]="friend.type">
+                        <div *ngSwitchCase="'text'">
+                            <p class="text-white">
+                                <i class="chat icon"></i> {{ friend.content | slice:0:25 }}<span *ngIf="friend.content.length > 25">...</span>
+                            </p>
+                        </div>
+                        <div *ngSwitchDefault>...</div>
+                    </div>
                 </div>
                 <div class="col-3 pt-2 text-center" *ngIf="friend.messages > 0">
                     <button class="ui circular tiny icon teal button" (click)="openChat(friend.username)">

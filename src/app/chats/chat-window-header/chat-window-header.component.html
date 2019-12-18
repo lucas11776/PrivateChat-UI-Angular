@@ -1,0 +1,22 @@
+<div class="d-flex bd-highlight">
+    <div class="img_cont">
+        <img src="./assets/friends/emma.png"
+            class="rounded-circle user_img">
+        <span class="online_icon"></span>
+    </div>
+    <div class="user_info">
+        <span>Chat with <span class="text-capitalize">{{ friend }}</span></span>
+        <p>Online</p>
+    </div>
+    <div class="video_cam">
+        <span><i class="video icon"></i></span>
+        <span><i class="camera icon"></i></span>
+    </div>
+</div>
+<span id="action_menu_btn" (click)="menu()"><i class="ellipsis vertical icon"></i></span>
+<div class="action_menu">
+    <ul>
+        <li class="text-capitalize" (click)="unfriendConfirmation()"><i class="user red icon"></i> Unfriend {{ friend }}</li>
+        <li><i class="trash red icon"></i> Clear All Chats</li>
+    </ul>
+</div>

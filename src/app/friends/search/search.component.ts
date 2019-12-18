@@ -35,6 +35,11 @@ export class SearchComponent implements OnInit {
     )
   }
 
+  /**
+   * Confirm send friend request
+   * 
+   * @param username Friend Username
+   */
   confirmRequest(username:string) {
     this.suiModalServ
       .open(new ConfirmModal('Send Friend Request?', 'Are your sure your want send a friend request to '+username+'.', 'small'))
@@ -42,6 +47,11 @@ export class SearchComponent implements OnInit {
       .onDeny(() => {});
   }
 
+  /**
+   * Send friend request
+   * 
+   * @param username Friend Username
+   */
   sendRequest(username:string) {
     const SUBSCRIPTION = this.friendServ.sendFriendRequest(username).subscribe(
       (response) => {

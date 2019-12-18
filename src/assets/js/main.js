@@ -18,9 +18,9 @@ $(document)
         sidebarResize()
     });
 
-    // chat jquery custom scrollbar
-    $('#action_menu_btn').click(function(){
-        $('.action_menu').toggle();
-    });
+    // // chat jquery custom scrollbar
+    // $('#action_menu_btn').click(function(){
+    //     $('.action_menu').toggle();
+    // });
 
 });
