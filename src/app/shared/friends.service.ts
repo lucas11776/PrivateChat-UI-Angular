@@ -26,13 +26,26 @@ export class FriendsService {
   }
 
   /**
+   * Get username account details
+   * 
+   * @param username Friend Username
+   * @return An `Observable` of type `friend`
+   */
+  friendsDetails(username:string): Observable<Friend> {
+    return this.http.get<Friend>('api/friends/details/' + username).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    );
+  }
+
+  /**
    * Check if user is friends with username or account
    * 
    * @param username Friend Username
    * @return An `Observable` of type `Response`
    */
   friendsUser(username:string) {
-    return this.http.get<Response>('api/friends/user/'+username).pipe(
+    return this.http.get<Response>('api/friends/user/' + username).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -112,6 +125,18 @@ export class FriendsService {
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
+  }
+
+  /**
+   * Get friends last seen
+   * 
+   * @param username Friend Username
+   */
+  friendLastSeen(username:string): Observable<{'last_seen':number}> {
+    return this.http.get<any>('api/friends/last/seen/' + username).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message)) 
+    )
   }
 
 }

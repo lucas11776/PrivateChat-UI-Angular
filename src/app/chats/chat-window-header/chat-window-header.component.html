@@ -1,12 +1,11 @@
 <div class="d-flex bd-highlight">
     <div class="img_cont">
-        <img src="./assets/friends/emma.png"
-            class="rounded-circle user_img">
+        <img [src]="friendsDetails?.profile_picture" class="rounded-circle user_img">
         <span class="online_icon"></span>
     </div>
     <div class="user_info">
         <span>Chat with <span class="text-capitalize">{{ friend }}</span></span>
-        <p>Online</p>
+        <p>{{ friendLastSeen }}</p>
     </div>
     <div class="video_cam">
         <span><i class="video icon"></i></span>

@@ -72,6 +72,18 @@ export class AccountService {
   }
 
   /**
+   * Updated user last seen
+   * 
+   * @return An `Observable` of type `Any`
+   */
+  updateLastSeen() : Observable<any> {
+    return this.http.get<any>('api/update/last/seen').pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
+  }
+
+  /**
    * Remove user token from browser session data
    * 
    * @return 'NULL'

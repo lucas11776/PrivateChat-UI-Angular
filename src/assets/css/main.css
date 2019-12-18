@@ -330,8 +330,8 @@ body {
 }
 
 .chats .user_img {
-	height: 70px;
-	width: 70px;
+	height: 60px;
+	width: 60px;
 	border:1.5px solid #f5f6fa;
 
 }
@@ -345,8 +345,8 @@ body {
 
 .chats .img_cont {
 	position: relative;
-	height: 70px;
-	width: 70px;
+	height: 60px;
+	width: 60px;
 }
 
 .chats .img_cont_msg {
