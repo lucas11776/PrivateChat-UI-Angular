@@ -5,6 +5,7 @@ import { expand, concatMap } from 'rxjs/operators';
 
 import { FriendsService } from '../../shared/friends.service';
 import { FriendMessageCout } from '../../model/friends';
+import { DateService } from '../../shared/date.service';
 
 @Component({
   selector: 'app-user',
@@ -19,7 +20,8 @@ export class UserComponent implements OnInit {
 
   constructor(
     private friendServ: FriendsService,
-    private router: Router
+    private router: Router,
+    private date: DateService
   ) { }
 
   ngOnInit() {
@@ -32,6 +34,10 @@ export class UserComponent implements OnInit {
 
   openChat(username:string) {
     this.router.navigate(['chats', username])
+  }
+
+  userOnline(timestamp:number) {
+    return this.date.online(timestamp);
   }
 
 }

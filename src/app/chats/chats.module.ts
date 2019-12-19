@@ -6,6 +6,7 @@ import { ChatsComponent } from './chats.component';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { FriendsWindowComponent } from './friends-window/friends-window.component';
 import { ChatWindowHeaderComponent } from './chat-window-header/chat-window-header.component';
+import { PipeModule } from '../pipe/pipe.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ChatWindowHeaderComponent } from './chat-window-header/chat-window-head
   ],
   imports: [
     CommonModule,
-    ChatsRoutingModule
+    ChatsRoutingModule,
+    PipeModule
   ]
 })
 export class ChatsModule { }

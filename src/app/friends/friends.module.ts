@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { FriendRequestComponent } from '../template/friend-request/friend-request.component';
 import { UserComponent } from './user/user.component';
 import { RequestsComponent } from './requests/requests.component';
+import { PipeModule } from '../pipe/pipe.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RequestsComponent } from './requests/requests.component';
     CommonModule,
     FriendsRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    PipeModule
   ],
   entryComponents: [ ]
 })

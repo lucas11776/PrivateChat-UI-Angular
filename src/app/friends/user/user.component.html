@@ -22,13 +22,13 @@
                                     <div class="d-flex bd-highlight" (click)="openChat(friend.username)">
                                         <div class="img_cont">
                                             <img [src]="friend.profile_picture" class="rounded-circle user_img">
-                                            <span class="online_icon"></span>
+                                            <span class="online_icon" [ngClass]="{'offline': userOnline(friend.last_seen) == false}"></span >
                                         </div>
                                         <div class="user_info w-100">
                                             <div class="row">
                                                 <div class="col-9 pb-2">
                                                     <span>{{ friend.username }}</span>
-                                                    <p>{{ friend.username }} is online</p>
+                                                    <p>{{ friend.last_seen | lastSeen }}</p>
                                                 </div>
                                                 <div class="col-3 pt-2 text-center">
                                                     <button class="ui circular tiny icon teal button" (click)="openChat(friend.username)" *ngIf="friend.messages > 0">
