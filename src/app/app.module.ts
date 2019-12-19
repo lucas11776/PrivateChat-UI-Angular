@@ -11,17 +11,16 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { HomeComponent } from './Pages/home/home.component';
 import { SidebarComponent } from './template/sidebar/sidebar.component';
 import { FriendsModule } from './friends/friends.module';
-import { LastSeenDirective } from './directive/last-seen.directive';
 import { ChatsModule } from './chats/chats.module';
 import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.component';
 import { InfoModalComponent } from './template/info-modal/info-modal.component';
+import { PipeModule } from './pipe/pipe.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SidebarComponent,
-    LastSeenDirective,
     ConfirmModalComponent,
     InfoModalComponent
   ],
@@ -34,7 +33,8 @@ import { InfoModalComponent } from './template/info-modal/info-modal.component';
     HttpClientModule,
     FriendsModule,
     ChatsModule,
-    SuiModule
+    SuiModule,
+    PipeModule
   ],
   entryComponents: [
       ConfirmModalComponent,
