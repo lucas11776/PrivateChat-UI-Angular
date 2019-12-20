@@ -41,7 +41,7 @@ export class AppComponent implements OnInit,OnDestroy {
 
   @HostListener('window:blur', ['$event'])
   onBlur(event: FocusEvent) : void {
-    // this.ngOnDestroy();
+    //this.ngOnDestroy();
   }
 
   ngOnDestroy() {

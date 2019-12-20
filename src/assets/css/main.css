@@ -4,13 +4,15 @@
 
 html {
   font-size: 14px;
-  min-width: 100%;
+  width: 100%;
+  min-width: 650px;
   min-height: 100vh;
 }
 
 body {
   background-color: #e9ecef;
   width: 100%;
+  min-width: 650px;
 }
 
 .pointer {

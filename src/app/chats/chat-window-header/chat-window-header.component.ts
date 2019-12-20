@@ -22,6 +22,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
   friendsDetailSubscription:Subscription;
   friendLastSeen:number;
   friendsDetails:Friend;
+  requestTime = 2500;
   friend:string;
 
   constructor(
@@ -46,7 +47,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
 
   getLastSeen() {
     this.lastSeenSubscription = this.friendServ.friendLastSeen(this.friend).pipe(
-      expand((_) => timer(500).pipe(
+      expand((_) => timer(this.requestTime).pipe(
         concatMap((_) => this.friendServ.friendLastSeen(this.friend))
       ))
     ).subscribe(

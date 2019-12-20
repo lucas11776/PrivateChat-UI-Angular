@@ -8,7 +8,9 @@ export class DateService {
   /**
    * Time to delay last seen for http request perpose
    */
-  ONLINE_DELAY = 10; // 10s
+  ONLINE_DELAY = 15; // 10s
+
+  MONTHS = [];
 
   constructor() { }
 
@@ -21,35 +23,48 @@ export class DateService {
     return (this.getCurrentTimestamp() - timestamp) > this.ONLINE_DELAY ? false : true;
   }
 
+  /**
+   * Convert `timestamp` to readable time
+   * 
+   * @param timestamp
+   * @return An `Date` of user last seen 
+   */
   lastSeen(timestamp:number) {
-    const LAST_SEEN_SECONDS = this.getCurrentTimestamp() - timestamp;//(60*60*12)+(60*50);
+    const LAST_SEEN_SECONDS = this.getCurrentTimestamp() - timestamp;
+    const TIME = new Date(timestamp*1000);
 
-    // online
+    // Online
     if(LAST_SEEN_SECONDS < this.ONLINE_DELAY) {
       return 'Online';
     }
 
-    // minute
-    if(LAST_SEEN_SECONDS <= 60) {
+    // Seconds
+    if(LAST_SEEN_SECONDS < 60) {
+      return 'last seen ' + LAST_SEEN_SECONDS + (LAST_SEEN_SECONDS == 1 ? ' second ' : ' seconds ') + ' ago.';
+    }
+
+    // Minutes
+    if(LAST_SEEN_SECONDS <= (60*2)) {
       return 'last seen 1 minute ago';
     }
 
-    if(LAST_SEEN_SECONDS <= (60*60)) {
+    if(LAST_SEEN_SECONDS < (60*60)) {
       const MINUTES = Math.floor(LAST_SEEN_SECONDS/60);
-      return 'last seen ' + MINUTES + ' minutes ago.'; 
+      return 'last seen ' + MINUTES + (MINUTES == 1 ? ' minute ' : ' minutes ') + 'ago.'; 
     }
 
-    // three hour max
+    // Four Hours
     if(LAST_SEEN_SECONDS < ( (60*60) * 4 )) {
       const HOUR = Math.floor(LAST_SEEN_SECONDS / (60*60) );
       const MINUTES = LAST_SEEN_SECONDS % (60*60);
       var lastSeen = 'last seen ' + HOUR + (HOUR > 1 ? ' hour ' : ' hours ');
       
-      if(MINUTES > 0) {
-        lastSeen += Math.floor(MINUTES/(60)) == 1 ? (Math.floor(MINUTES/60) + ' minute ') : (Math.floor(MINUTES/60) + ' minutes '); 
+      if(MINUTES != 0 || MINUTES != null) {
+        var _minutes = Math.floor(MINUTES/(60));
+        lastSeen += _minutes == 1 ? (_minutes + ' minute ') : (_minutes + ' minutes '); 
       }
 
-      return lastSeen + 'ago';
+      return lastSeen + ' ago';
     }
 
     // Today
@@ -57,14 +72,17 @@ export class DateService {
       return 'last seen Today at ';
     }
 
-    if(LAST_SEEN_SECONDS <= ((60*60)*48)) {
-
+    // Yesterday
+    if(timestamp > this.getYesterdatTimestamp()) {
+      if(TIME.getHours() > 12) {
+        var _hour = TIME.getHours() - 12;
+        return 'last seen Yesterday at ' + _hour + ':' + TIME.getSeconds() + 'PM'
+      }
+      return 'last seen Yesterday at ' + TIME.getHours() + ':' + TIME.getSeconds() + 'AM';
     }
 
-    // yesterday
-
     // date
-    return ;
+    return 'last seen at ';
   }
 
   /**

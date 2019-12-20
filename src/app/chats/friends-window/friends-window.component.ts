@@ -14,7 +14,7 @@ import { FriendsChatPreview } from '../../model/friends';
 export class FriendsWindowComponent implements OnInit {
 
   friends: Observable<FriendsChatPreview[]>
-  requestTime = 1000;
+  requestTime = 2500;
 
   constructor(
     private friendServ: FriendsService,

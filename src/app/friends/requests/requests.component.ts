@@ -17,7 +17,7 @@ import { InfoModal, InfoModalComponent } from '../../template/info-modal/info-mo
 export class RequestsComponent implements OnInit {
 
   friendsRequests:Observable<FriendRequest[]>;
-  requestTime = 10000;
+  requestTime = 2500;
 
   constructor(
     private friendsServ: FriendsService,

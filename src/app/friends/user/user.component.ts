@@ -15,7 +15,7 @@ import { DateService } from '../../shared/date.service';
 export class UserComponent implements OnInit {
 
   friends$: Observable<FriendMessageCout[]>;
-  requestTime = 3000;
+  requestTime = 2500;
   search:string;
 
   constructor(
