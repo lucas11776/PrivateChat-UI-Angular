@@ -15,7 +15,7 @@
                         </div>
                         <div class="card-body contacts">
                             <ul class="contacts w-100">
-                                <app-friends-window></app-friends-window>
+                                <app-friends-window (open)="newChatWindow($event)"></app-friends-window>
                             </ul>
                         </div>
                         <div class="card-footer"></div>
@@ -27,97 +27,14 @@
                             <app-chat-window-header></app-chat-window-header>
                         </div>
                         <div class="card-body msg_card_body">
-                            <div class="d-flex justify-content-start mb-4">
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/emma.png" class="rounded-circle user_img_msg">
-                                </div>
-                                <div class="msg_cotainer">
-                                    Hi, Zack how are you doing.
-                                    <span class="msg_time">8:40 AM, Today</span>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                    Emma howzit I am great whats up.
-                                    <span class="msg_time_send">8:55 AM, Today</span>
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/zack.jpg" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-start mb-4">
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/emma.png" class="rounded-circle user_img_msg">
-                                </div>
-                                <div class="msg_cotainer">
-                                    Just check on you had you had a flu which type, the hang over one or real one.
-                                    <span class="msg_time">9:00 AM, Today</span>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                    ohhhhhhhhhhh?????????
-                                    <span class="msg_time_send">9:05 AM, Today</span>
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/zack.jpg" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-start mb-4">
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/emma.png" class="rounded-circle user_img_msg">
-                                </div>
-                                <div class="msg_cotainer">
-                                    You have to stop getting this flu. Zack can you send me your laptop login screen picture.
-                                    <span class="msg_time">9:07 AM, Today</span>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                    Ok, will send it now.
-                                    <span class="msg_time_send">9:10 AM, Today</span>
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/zack.jpg" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                    <img src="./assets/post/pcgay.png">
-                                    <span class="msg_time_send">9:15 AM, Today</span>
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/zack.jpg" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                    Did you see this video Mr Probz part two.
-                                    <span class="msg_time_send">9:20 AM, Today</span>
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/zack.jpg" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                    <video controls>
-                                        <source src="./assets/post/Jack_Walton_sings_Mr_Probz_Waves.mp4">
-                                        Sorry your browser does not support this video type.
-                                    </video>
-                                    <span class="msg_time_send">9:24 AM, Today</span>
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/zack.jpg" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-start mb-4">
-                                <div class="img_cont_msg">
-                                    <img src="./assets/friends/emma.png" class="rounded-circle user_img_msg">
-                                </div>
-                                <div class="msg_cotainer">
-                                    Wowooooo.. The boy can sing. Thanks, bye.
-                                    <span class="msg_time">9:32 AM, Today</span>
+                            <div *ngFor="let chat of chats">
+                                <div [ngSwitch]="chat.from">
+                                    <div *ngSwitchCase="friend">
+                                        <app-friend-text [chat]="chat"></app-friend-text>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <app-user-text [chat]="chat"></app-user-text>
+                                    </div>
                                 </div>
                             </div>
                         </div>

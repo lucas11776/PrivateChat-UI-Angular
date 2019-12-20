@@ -3,7 +3,7 @@
         <div class="img_cont">
             <img [src]="friend.profile_picture"
                 class="rounded-circle user_img">
-            <span class="online_icon"></span>
+            <span class="online_icon" [ngClass]="{'offline': userOnline(friend.last_seen) == false}"></span>
         </div>
         <div class="user_info w-100 pr-1">
             <div class="row">

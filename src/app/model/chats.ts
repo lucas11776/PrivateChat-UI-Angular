@@ -1,4 +1,4 @@
-export interface chat {
+export interface Chat {
     chat_id:number;
     creeated:string;
     profile_picture:string;
@@ -10,5 +10,5 @@ export interface ChatsResponse {
     user:string;
     friend:string;
     total:number;
-    chats: chat[];
+    chats: Chat[];
 }

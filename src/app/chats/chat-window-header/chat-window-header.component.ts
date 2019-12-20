@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { concatMap, expand } from 'rxjs/operators';
 import { SuiModalService } from 'ng2-semantic-ui';
@@ -7,6 +7,7 @@ import { SuiModalService } from 'ng2-semantic-ui';
 import { ConfirmModal } from '../../template/confirm-modal/confirm-modal.component';
 import { FriendsService } from '../../shared/friends.service';
 import { Friend } from '../../model/friends';
+import { DateService } from '../../shared/date.service';
 
 // Jqeury Var
 declare var $ : any;
@@ -29,15 +30,26 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private elemRef: ElementRef,
     private suiModalServ: SuiModalService,
-    private friendServ: FriendsService
+    private friendServ: FriendsService,
+    private date: DateService,
+    private router: Router
   ) {
-    this.friend = activatedRoute.snapshot.params.username;
+    // listen end of router change event (initialize data)
+    this.router.events.subscribe((event) => {
+      if(event instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
   }
   ngOnInit() {
+    this.friend = this.activatedRoute.snapshot.params.username;
     this.getFriendsDetails();
     this.getLastSeen();
   }
 
+  /**
+   * Get friends account details
+   */
   getFriendsDetails() {
     this.friendsDetailSubscription = this.friendServ.friendsDetails(this.friend).subscribe(
       (response) => this.friendsDetails = response,
@@ -45,6 +57,9 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Get friend last seen each `this.requestTime`
+   */
   getLastSeen() {
     this.lastSeenSubscription = this.friendServ.friendLastSeen(this.friend).pipe(
       expand((_) => timer(this.requestTime).pipe(
@@ -55,11 +70,31 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
       (error) => this.getLastSeen()
     )
   }
-
+  
+  /**
+   * Open menu
+   */
   menu() {
     $($(this.elemRef.nativeElement).find('.action_menu')).toggle();
   }
 
+  /**
+   * Check if user last seen should by consider to be online
+   */
+  userOnline(timestamp:number) {
+    return this.date.online(timestamp);
+  }
+
+  /**
+   * Convert user last seen to reable date
+   */
+  lastSeen(timestamp:number) {
+    return this.date.lastSeen(timestamp);
+  }
+
+  /**
+   * Unfriend modal confirmation
+   */
   unfriendConfirmation() {
     this.suiModalServ
       .open(new ConfirmModal('Unfriend ' + this.friend, 'Are you sure you want to unfriend ' + this.friend.toUpperCase() + '.'))
@@ -67,6 +102,9 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
       .onDeny(() => {});
   }
 
+  /**
+   * Unfriend friend
+   */
   unfriend() {
 
   }

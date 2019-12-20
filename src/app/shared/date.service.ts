@@ -76,9 +76,9 @@ export class DateService {
     if(timestamp > this.getYesterdatTimestamp()) {
       if(TIME.getHours() > 12) {
         var _hour = TIME.getHours() - 12;
-        return 'last seen Yesterday at ' + _hour + ':' + TIME.getSeconds() + 'PM'
+        return 'last seen Yesterday at ' + _hour + ':' + TIME.getSeconds() + 'pm'
       }
-      return 'last seen Yesterday at ' + TIME.getHours() + ':' + TIME.getSeconds() + 'AM';
+      return 'last seen Yesterday at ' + TIME.getHours() + ':' + TIME.getSeconds() + 'am';
     }
 
     // date
