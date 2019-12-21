@@ -9,6 +9,7 @@ import { ChatWindowHeaderComponent } from './chat-window-header/chat-window-head
 import { PipeModule } from '../pipe/pipe.module';
 import { UserTextComponent } from '../template/user-text/user-text.component';
 import { FriendTextComponent } from '../template/friend-text/friend-text.component';
+import { ChatWindowInputComponent } from './chat-window-input/chat-window-input.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FriendTextComponent } from '../template/friend-text/friend-text.compone
     FriendsWindowComponent,
     ChatWindowHeaderComponent,
     UserTextComponent,
-    FriendTextComponent
+    FriendTextComponent,
+    ChatWindowInputComponent
   ],
   imports: [
     CommonModule,
