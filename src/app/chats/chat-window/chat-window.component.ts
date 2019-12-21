@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { concatMap, map } from 'rxjs/operators';
+import { Observable, Subscription, timer } from 'rxjs';
+import { concatMap, map, expand } from 'rxjs/operators';
 
 import { ChatsService } from '../../shared/chats.service';
-import { Chat } from '../../model/chats';
+import { Chat, ChatsResponse } from '../../model/chats';
+
+declare var $ : any;
 
 @Component({
   selector: 'app-chat-window',
@@ -36,6 +38,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     // listen end of router change event (initialize data)
     this.router.events.subscribe((event:NavigationEnd) => {
       if(event instanceof NavigationEnd) {
+        this.ngOnDestroy();
         this.ngOnInit();
       }
     });
@@ -47,19 +50,36 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.chatServ.chats(this.activatedRoute.snapshot.params.username, this.limit, 0).pipe(
       map((response) => {
-        this.friend = response.friend;
-        this.user = response.user;
-        this.total = response.total;
-        return response.chats;
-      })
-      
+        this.loadChatDetails(response);
+        //this.chats = response.chats;
+        return [];
+      }),
+      expand((_) => timer(500).pipe(
+        concatMap((_) => {
+          var last_chat_id = this.chats.length != 0 ? this.chats[this.chats.length-1].chat_id : 0;
+          return this.chatServ.newChats(this.activatedRoute.snapshot.params.username, last_chat_id).pipe(
+            map((response) => {
+              this.loadChatDetails(response);
+              this.addChatsFront(response.chats);
+              return response.chats;
+            })
+          )
+        })
+      ))
     )
     .subscribe(
-        (response) => {
-          //console.log(response);
-          this.chats = response;
-        }
+        (response) => { }
     )
+  }
+
+  loadChatDetails(response: ChatsResponse) {
+    this.friend = response.friend;
+    this.user = response.user;
+    this.total = response.total;
+  }
+
+  scrollWindowBottom() {
+    $('.msg_card_body').scrollTop($('.msg_card_body').height());
   }
 
   /**
@@ -71,7 +91,16 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
    * @param chats `Chat[]`
    */
   addChatsFront(chats:Chat[]) {
-    //console.log();
+    if(chats.length != 0) {
+      chats.map((chat, index, array) => {
+        var exist = this.chats.find((_chat, _index, _array) => _chat.chat_id == chat.chat_id);
+        if(!exist) {
+          this.chats.push(chat);
+          this.scrollWindowBottom();
+        }
+      });
+    }
+    
   }
 
   /**
@@ -101,6 +130,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     if(this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.chats = [];
   }
 
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ChatsRoutingModule } from './chats-routing.module';
 import { ChatsComponent } from './chats.component';
@@ -24,7 +25,9 @@ import { ChatWindowInputComponent } from './chat-window-input/chat-window-input.
   imports: [
     CommonModule,
     ChatsRoutingModule,
-    PipeModule
+    PipeModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ChatsModule { }

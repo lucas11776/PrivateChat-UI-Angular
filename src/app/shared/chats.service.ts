@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { ChatsResponse } from '../model/chats';
+import { ChatsResponse, SendText, SendTextResponse } from '../model/chats';
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +31,26 @@ export class ChatsService {
    * Get lastest chat starting from timestamp
    * 
    * @param timestamp Chat created timestamp
+   * @param chat_id Latest text from chats
    */
-  newChats(timestamp:string) {
-
+  newChats(username:string, chat_id:number) : Observable<ChatsResponse> {
+    return this.http.get<ChatsResponse>('api/chats/latest/'+username+'?chat_id='+chat_id).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
+  }
+  
+  /**
+   * Sent user text to api
+   * 
+   * @param chat 
+   * @return An `Observable` of type `SendTextResponse`
+   */
+  sendText(chat:SendText) : Observable<SendTextResponse> {
+    return this.http.post<SendTextResponse>('api/chats/send/text', chat).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
   }
   
 }

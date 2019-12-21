@@ -76,10 +76,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         concatMap((_) => this.notificationServ.notifications())
       ))
     ).subscribe(
-      (response) => {
-        console.log(response);
-        this.notification = response;
-      }
+      (response) => this.notification = response
     )
   }
 

@@ -12,3 +12,14 @@ export interface ChatsResponse {
     total:number;
     chats: Chat[];
 }
+
+export interface SendText {
+    username:string;
+    text:string;
+}
+
+export interface SendTextResponse {
+    status:boolean;
+    message:string;
+    data:SendText;
+}
