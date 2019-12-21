@@ -1,4 +1,4 @@
-<li class="" *ngFor="let friend of (friends | async)">
+<li [ngClass]="{'active': friend?.username == active}" *ngFor="let friend of (friends | async)">
     <div class="d-flex bd-highlight pointer" (click)="openChat(friend.username)">
         <div class="img_cont">
             <img [src]="friend.profile_picture"

@@ -35,7 +35,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     // listen end of router change event (initialize data)
-    this.router.events.subscribe((event) => {
+    this.router.events.subscribe((event:NavigationEnd) => {
       if(event instanceof NavigationEnd) {
         this.ngOnInit();
       }

@@ -21,27 +21,38 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   limit = 30;
   requestTime = 500; // 500ms
 
+  /**
+   * Listen to route change and call ngOnInit to initialize new data
+   * 
+   * @param chatServ ChatsService
+   * @param activatedRoute ActivatedRoute
+   * @param router Router
+   */
   constructor(
     private chatServ: ChatsService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     // listen end of router change event (initialize data)
-    this.router.events.subscribe((event) => {
+    this.router.events.subscribe((event:NavigationEnd) => {
       if(event instanceof NavigationEnd) {
         this.ngOnInit();
       }
     });
   }
 
+  /**
+   * Get lastest chats between user and friend
+   */
   ngOnInit() {
-    this.chatServ.chats(this.activatedRoute.snapshot.params.username, this.limit, 0).pipe(
+    this.subscription = this.chatServ.chats(this.activatedRoute.snapshot.params.username, this.limit, 0).pipe(
       map((response) => {
         this.friend = response.friend;
         this.user = response.user;
         this.total = response.total;
         return response.chats;
       })
+      
     )
     .subscribe(
         (response) => {
@@ -75,6 +86,11 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   }
 
+  /**
+   * Get new data if friend as been click
+   * 
+   * @param $event 
+   */
   newChatWindow($event:string) {
     if(this.friend != $event) {
       this.ngOnInit();

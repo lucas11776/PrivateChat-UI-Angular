@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
 
 import { AccountService } from '../../shared/account.service';
+
+declare var $ : any;
 
 @Component({
   selector: 'app-sidebar',
@@ -22,12 +24,27 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
+  @HostListener('window:resize', ['$event'])
+  windowEvent(event: FocusEvent) : void {
+    this.replaceSidebarSpace();
+  }
+
   /**
    * Initialize an `Observable` that get data from the api every
    * `requestTime` repeatly.
    */
   ngOnInit() {
     this.loggedIn();
+    this.replaceSidebarSpace();
+  }
+
+  /**
+   * Apply padding with body with size of sidebar
+   */
+  replaceSidebarSpace() {
+    const SIDEBAR_WIDTH = $("#sidebar").width();
+    $("body").css({"paddingLeft": 0});
+    $("body").css({"paddingLeft": SIDEBAR_WIDTH});
   }
 
   /**

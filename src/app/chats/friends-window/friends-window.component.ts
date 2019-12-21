@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 import { expand, concatMap, map } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { DateService } from '../../shared/date.service';
 export class FriendsWindowComponent implements OnInit {
 
   @Output('open') open = new EventEmitter();
+  @Input('active') active:string;
   friends: Observable<FriendsChatPreview[]>
   requestTime = 2500;
 
