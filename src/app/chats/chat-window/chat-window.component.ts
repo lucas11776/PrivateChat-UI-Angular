@@ -56,7 +56,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     )
     .subscribe(
         (response) => {
-          console.log(response);
+          //console.log(response);
           this.chats = response;
         }
     )
@@ -71,7 +71,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
    * @param chats `Chat[]`
    */
   addChatsFront(chats:Chat[]) {
-    console.log();
+    //console.log();
   }
 
   /**

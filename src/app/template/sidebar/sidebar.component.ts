@@ -4,6 +4,8 @@ import { Subscription, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
 
 import { AccountService } from '../../shared/account.service';
+import { NotificationService } from '../../shared/notification.service';
+import { Notification } from '../../model/notification';
 
 declare var $ : any;
 
@@ -14,14 +16,16 @@ declare var $ : any;
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
-  loggedin: boolean;
-  notification: object;
-  loggedinSubscription: Subscription;
-  requestTime = 10000; // miliseconds
+  loggedin:boolean;
+  notification:Notification;
+  loggedinSubscription:Subscription;
+  notificationSubscription:Subscription;
+  requestTime = 2500; // miliseconds
 
   constructor(
     private accountServ: AccountService,
-    private router: Router
+    private router: Router,
+    private notificationServ: NotificationService
   ) { }
 
   @HostListener('window:resize', ['$event'])
@@ -36,6 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loggedIn();
     this.replaceSidebarSpace();
+    this.getNotification();
   }
 
   /**
@@ -66,7 +71,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   getNotification() {
-
+    this.notificationSubscription = this.notificationServ.notifications().pipe(
+      expand((_) => timer(this.requestTime).pipe(
+        concatMap((_) => this.notificationServ.notifications())
+      ))
+    ).subscribe(
+      (response) => {
+        console.log(response);
+        this.notification = response;
+      }
+    )
   }
 
   /**
@@ -82,7 +96,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
    * `Unsubscribe` to loggedin `Observable`
    */
   ngOnDestroy() {
-    this.loggedinSubscription.unsubscribe();
+    if(this.loggedinSubscription) {
+      this.loggedinSubscription.unsubscribe();
+    }
+    if(this.notificationSubscription) {
+      this.loggedinSubscription.unsubscribe();
+    }
   }
 
 }
