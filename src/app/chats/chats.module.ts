@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SuiModule } from 'ng2-semantic-ui';
 
 import { ChatsRoutingModule } from './chats-routing.module';
 import { ChatsComponent } from './chats.component';
@@ -27,7 +28,8 @@ import { ChatWindowInputComponent } from './chat-window-input/chat-window-input.
     ChatsRoutingModule,
     PipeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SuiModule
   ]
 })
 export class ChatsModule { }

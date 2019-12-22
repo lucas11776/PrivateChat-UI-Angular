@@ -4,6 +4,8 @@ export interface Chat {
     profile_picture:string;
     from:string;
     to:string;
+    type:string;
+    content:string;
 }
 
 export interface ChatsResponse {

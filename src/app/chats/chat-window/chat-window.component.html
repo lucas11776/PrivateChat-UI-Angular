@@ -33,7 +33,7 @@
                                         <app-friend-text [chat]="chat"></app-friend-text>
                                     </div>
                                     <div *ngSwitchDefault>
-                                        <app-user-text [chat]="chat"></app-user-text>
+                                        <app-user-text [chat]="chat" (delete)="deleteText($event)"></app-user-text>
                                     </div>
                                 </div>
                             </div>

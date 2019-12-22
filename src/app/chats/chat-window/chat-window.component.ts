@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Observable, Subscription, timer } from 'rxjs';
 import { concatMap, map, expand } from 'rxjs/operators';
 
@@ -22,6 +22,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   chats:Chat[] = [];
   limit = 30;
   requestTime = 500; // 500ms
+  firstRequest = true;
 
   /**
    * Listen to route change and call ngOnInit to initialize new data
@@ -36,9 +37,11 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     // listen end of router change event (initialize data)
-    this.router.events.subscribe((event:NavigationEnd) => {
-      if(event instanceof NavigationEnd) {
+    this.router.events.subscribe((event) => {
+      if(event instanceof NavigationStart) {
         this.ngOnDestroy();
+      }
+      if(event instanceof NavigationEnd) {
         this.ngOnInit();
       }
     });
@@ -51,7 +54,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     this.subscription = this.chatServ.chats(this.activatedRoute.snapshot.params.username, this.limit, 0).pipe(
       map((response) => {
         this.loadChatDetails(response);
-        //this.chats = response.chats;
         return [];
       }),
       expand((_) => timer(500).pipe(
@@ -60,7 +62,9 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
           return this.chatServ.newChats(this.activatedRoute.snapshot.params.username, last_chat_id).pipe(
             map((response) => {
               this.loadChatDetails(response);
-              this.addChatsFront(response.chats);
+              if(this.getLastChatId(this.chats) != this.getLastChatId(response.chats)) {
+                this.addChatsFront(response.chats);
+              }
               return response.chats;
             })
           )
@@ -72,6 +76,14 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     )
   }
 
+  getLastChatId(chats:Chat[]) {
+    var chat_id:number = null;
+    if(chats.length > 0) {
+      chat_id = chats[chats.length-1].chat_id;
+    }
+    return chat_id;
+  }
+
   loadChatDetails(response: ChatsResponse) {
     this.friend = response.friend;
     this.user = response.user;
@@ -79,7 +91,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   scrollWindowBottom() {
-    $('.msg_card_body').scrollTop($('.msg_card_body').height());
+    $('.msg_card_body').scrollTop($('.msg_card_body')[0].scrollHeight + 50);
   }
 
   /**
@@ -92,15 +104,20 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
    */
   addChatsFront(chats:Chat[]) {
     if(chats.length != 0) {
-      chats.map((chat, index, array) => {
-        var exist = this.chats.find((_chat, _index, _array) => _chat.chat_id == chat.chat_id);
-        if(!exist) {
-          this.chats.push(chat);
-          this.scrollWindowBottom();
-        }
-      });
+      this.chats = this.chats.concat(chats);
+      const timeOut = setTimeout(() => {
+        this.scrollWindowBottom();
+        clearTimeout(timeOut);
+      }, 500);
     }
-    
+  }
+
+  deleteText($event:number) {
+    this.chats.map((chat, index, array) => {
+      if(chat.chat_id == $event) {
+        this.chats = this.chats.filter((chat) => chat.chat_id != $event);
+      }
+    });
   }
 
   /**
@@ -127,10 +144,10 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   } 
 
   ngOnDestroy() {
-    if(this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
     this.chats = [];
+    this.friend = null;
+    this.user = null;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Chat } from '../../model/chats';
 
@@ -10,10 +10,15 @@ import { Chat } from '../../model/chats';
 export class UserTextComponent implements OnInit {
 
   @Input('chat') chat:Chat;
+  @Output('delete') delete = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  deleteText() {
+    this.delete.emit(this.chat.chat_id);
   }
 
 }

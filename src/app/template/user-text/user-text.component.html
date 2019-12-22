@@ -1,5 +1,13 @@
+<ng-template let-popup #popupTemplate>
+    <div class="icon pointer red" (click)="popup.close()" (click)="deleteText()">
+        <i class="trash red icon"></i> Delete Text
+    </div>
+    <div class="content">
+        <!-- <sui-rating class="star" (click)="popup.close()"></sui-rating> -->
+    </div>
+</ng-template>
 <div class="d-flex justify-content-end">
-    <div class="msg_cotainer_send">
+    <div class="msg_cotainer_send"  suiPopup [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
         <div [ngSwitch]="chat?.type">
             <div *ngSwitchCase="'vidoe'">...</div>
             <div *ngSwitchCase="'picture'">...</div>
