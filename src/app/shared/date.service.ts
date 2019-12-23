@@ -10,7 +10,9 @@ export class DateService {
    */
   ONLINE_DELAY = 15; // 10s
 
-  MONTHS = [];
+  monthsOfYear = ['January','February','March','April','May','June','July','August','September','October','November', 'December'];
+
+  dateOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
   constructor() { }
 
@@ -32,6 +34,10 @@ export class DateService {
   lastSeen(timestamp:number) {
     const LAST_SEEN_SECONDS = this.getCurrentTimestamp() - timestamp;
     const TIME = new Date(timestamp*1000);
+
+    if(timestamp == null) {
+      return '';
+    }
 
     // Online
     if(LAST_SEEN_SECONDS < this.ONLINE_DELAY) {
@@ -69,7 +75,7 @@ export class DateService {
 
     // Today
     if(timestamp > this.getTodayTimestamp()) {
-      return 'last seen Today at ';
+      return 'last seen Today at ' + (TIME.getHours() > 12 ? (TIME.getHours()-12) + ':' + TIME.getMinutes() + 'pm' : (TIME.getHours() + ':' + TIME.getMinutes() + 'am'));
     }
 
     // Yesterday
@@ -81,8 +87,8 @@ export class DateService {
       return 'last seen Yesterday at ' + TIME.getHours() + ':' + TIME.getSeconds() + 'am';
     }
 
-    // date
-    return 'last seen at ';
+    var time = (TIME.getHours() > 12 ? (TIME.getHours()-12) + ':' + TIME.getMinutes() + 'pm' : (TIME.getHours() + ':' + TIME.getMinutes() + 'am'))
+    return 'last seen at ' + time + ' ' + this.dateOfWeek[TIME.getDay()] + ' ' + TIME.getDate() + ' ' + this.monthsOfYear[TIME.getMonth()];
   }
 
   /**

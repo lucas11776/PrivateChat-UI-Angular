@@ -39,6 +39,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event:NavigationEnd) => {
       if(event instanceof NavigationStart) {
         this.friend = null;
+        this.friendLastSeen = null;
         this.ngOnDestroy();
       }
       if(event instanceof NavigationEnd) {

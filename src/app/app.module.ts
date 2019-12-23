@@ -14,6 +14,7 @@ import { FriendsModule } from './friends/friends.module';
 import { ChatsModule } from './chats/chats.module';
 import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.component';
 import { InfoModalComponent } from './template/info-modal/info-modal.component';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { InfoModalComponent } from './template/info-modal/info-modal.component';
     HttpClientModule,
     FriendsModule,
     ChatsModule,
-    SuiModule
+    SuiModule,
+    SettingsModule
   ],
   entryComponents: [
       ConfirmModalComponent,
