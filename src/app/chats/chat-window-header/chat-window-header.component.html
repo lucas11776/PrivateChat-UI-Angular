@@ -1,11 +1,11 @@
 <div class="d-flex bd-highlight">
     <div class="img_cont">
         <img [src]="friendsDetails?.profile_picture" class="rounded-circle user_img">
-        <span class="online_icon" [ngClass]="{'offline': userOnline(friendLastSeen) !== true}"></span>
+        <span class="online_icon" *ngIf="friend" [ngClass]="{'offline': userOnline(friendLastSeen) !== true}"></span>
     </div>
     <div class="user_info">
         <span>Chat with <span class="text-capitalize">{{ friend }}</span></span>
-        <p>{{ lastSeen(friendLastSeen) }}</p>
+        <p *ngIf="friend">{{ friendLastSeen | lastSeen }}</p>
     </div>
     <div class="video_cam d-none">
         <span><i class="video icon"></i></span>

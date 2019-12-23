@@ -15,6 +15,7 @@ import { InfoModal } from '../../template/info-modal/info-modal.component';
 })
 export class SearchComponent implements OnInit {
 
+  loading = false;
   search:FormControl = new FormControl;
   searchResults:Friend[];
 
@@ -27,9 +28,13 @@ export class SearchComponent implements OnInit {
     this.search.valueChanges.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
-      switchMap((search:string) => this.friendServ.search(search))
+      switchMap((search:string) => {
+        this.loading = true;
+        return this.friendServ.search(search);
+      })
     ).subscribe(
       (response) => {
+        this.loading = false;
         this.searchResults = response.results;
       }
     )

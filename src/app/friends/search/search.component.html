@@ -18,6 +18,9 @@
                             </div>
                         </div>
                         <div class="card-body contacts_body">
+                            <div class="ui active dimmer" *ngIf="loading">
+                                <div class="ui text loader">Searching For Friend...</div>
+                            </div>
                             <ul class="contacts w-100">
                                 <li *ngFor="let friend of searchResults">
                                     <div class="d-flex bd-highlight">
@@ -28,7 +31,7 @@
                                             <div class="row">
                                                 <div class="col-9 pb-2">
                                                     <span>{{ friend?.username }}</span>
-                                                    <p>{{ friend?.username }} last seen {{ friend?.last_seen | date }}</p>
+                                                    <p>{{ friend?.last_seen | lastSeen }}</p>
                                                 </div>
                                                 <div class="col-3 pt-2 text-center">
                                                     <button class="ui circular tiny icon teal button add friend" 
