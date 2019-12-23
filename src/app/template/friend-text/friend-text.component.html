@@ -19,6 +19,6 @@
             <div *ngSwitchCase="'picture'">...</div>
             <div *ngSwitchDefault>{{ chat?.content }}</div>
         </div>
-        <span class="msg_time">8:40 AM, Today</span>
+        <span class="msg_time">{{ chat?.created | dateChat }}</span>
     </div>
 </div>

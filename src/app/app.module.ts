@@ -15,6 +15,7 @@ import { ChatsModule } from './chats/chats.module';
 import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.component';
 import { InfoModalComponent } from './template/info-modal/info-modal.component';
 import { SettingsModule } from './settings/settings.module';
+import { PipeModule } from './pipe/pipe.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SettingsModule } from './settings/settings.module';
     FriendsModule,
     ChatsModule,
     SuiModule,
-    SettingsModule
+    SettingsModule,
+    PipeModule
   ],
   entryComponents: [
       ConfirmModalComponent,

@@ -79,7 +79,7 @@ export class DateService {
     }
 
     // Yesterday
-    if(timestamp > this.getYesterdatTimestamp()) {
+    if(timestamp > this.getYesterdayTimestamp()) {
       if(TIME.getHours() > 12) {
         var _hour = TIME.getHours() - 12;
         return 'last seen Yesterday at ' + _hour + ':' + TIME.getSeconds() + 'pm'
@@ -122,7 +122,7 @@ export class DateService {
    * 
    * @return An `Timestamp` in `Seconds`
    */
-  getYesterdatTimestamp() {
+  getYesterdayTimestamp() {
     var time = new Date();
 
     // set time to 12:00am

@@ -16,7 +16,7 @@
             <div *ngSwitchCase="'picture'">...</div>
             <div *ngSwitchDefault>{{ chat?.content }}</div>
         </div>
-        <p class="msg_time_send">8:55 AM, Today</p>
+        <p class="msg_time_send">{{ chat?.created | dateChat}}</p>
     </div>
     <div class="img_cont_msg">
         <img [src]="chat?.profile_picture" class="rounded-circle user_img_msg">
