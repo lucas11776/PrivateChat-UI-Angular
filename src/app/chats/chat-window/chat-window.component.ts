@@ -1,153 +1,181 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { Observable, Subscription, timer } from 'rxjs';
-import { concatMap, map, expand } from 'rxjs/operators';
+  import { Component, OnInit, OnDestroy } from '@angular/core';
+  import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
+  import { Observable, Subscription, timer } from 'rxjs';
+  import { concatMap, map, expand, mergeMap } from 'rxjs/operators';
 
-import { ChatsService } from '../../shared/chats.service';
-import { Chat, ChatsResponse } from '../../model/chats';
+  import { ChatsService } from '../../shared/chats.service';
+  import { Chat, ChatsResponse } from '../../model/chats';
 
-declare var $ : any;
+  declare var $ : any;
 
-@Component({
-  selector: 'app-chat-window',
-  templateUrl: './chat-window.component.html',
-  styleUrls: ['./chat-window.component.css']
-})
-export class ChatWindowComponent implements OnInit, OnDestroy {
+  @Component({
+    selector: 'app-chat-window',
+    templateUrl: './chat-window.component.html',
+    styleUrls: ['./chat-window.component.css']
+  })
+  export class ChatWindowComponent implements OnInit, OnDestroy {
 
-  user:string
-  friend:string
-  total:number;
-  subscription:Subscription;
-  chats:Chat[] = [];
-  limit = 30;
-  requestTime = 500; // 500ms
-  firstRequest = true;
+    user:string;
+    friend:string;
+    total:number;
+    getChatsSubscription:Subscription;
+    routeSubscription:Subscription;
+    chats:Chat[] = [];
+    limit = 30;
+    requestTime = 500; // 500ms
+    firstRequest = true;
+    routeChange = false;
 
-  /**
-   * Listen to route change and call ngOnInit to initialize new data
-   * 
-   * @param chatServ ChatsService
-   * @param activatedRoute ActivatedRoute
-   * @param router Router
-   */
-  constructor(
-    private chatServ: ChatsService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {
-    // listen end of router change event (initialize data)
-    this.router.events.subscribe((event) => {
-      if(event instanceof NavigationStart) {
-        this.ngOnDestroy();
+    /**
+     * Listen to route change and call ngOnInit to initialize new data
+     * 
+     * @param chatServ ChatsService
+     * @param activatedRoute ActivatedRoute
+     * @param router Router
+     */
+    constructor(
+      private chatServ: ChatsService,
+      private activatedRoute: ActivatedRoute,
+      private router: Router
+    ) {
+      this.friend = this.activatedRoute.snapshot.params.username;
+      // router change event
+      this.router.events.subscribe((event) => {
+        if(event instanceof NavigationStart) {
+          this.ngOnDestroy();
+        }
+        if(event instanceof NavigationEnd) {
+          this.friend = this.activatedRoute.snapshot.params.username;
+          this.ngOnInit();
+        }
+      });
+    }
+
+    ngOnInit() {
+      if(this.friend) {
+        this.getChats();
       }
-      if(event instanceof NavigationEnd) {
-        this.ngOnInit();
-      }
-    });
-  }
+    }
 
-  /**
-   * Get lastest chats between user and friend
-   */
-  ngOnInit() {
-    this.subscription = this.chatServ.chats(this.activatedRoute.snapshot.params.username, this.limit, 0).pipe(
-      map((response) => {
-        this.loadChatDetails(response);
-        return [];
-      }),
-      expand((_) => timer(500).pipe(
-        concatMap((_) => {
-          var last_chat_id = this.chats.length != 0 ? this.chats[this.chats.length-1].chat_id : 0;
-          return this.chatServ.newChats(this.activatedRoute.snapshot.params.username, last_chat_id).pipe(
-            map((response) => {
+    /**
+     * Get lastest chats between user and friend
+     */
+    getChats() {
+      this.getChatsSubscription = this.chatServ.chats(this.friend, this.limit, 0)
+        .pipe(
+          expand((_) => timer(500).pipe(
+            concatMap((_) => this.chatServ.newChats(this.friend, this.getLastChatId(this.chats)))
+          ))
+        )
+        .subscribe(
+          (response) => {
+            if(response.friend == this.friend) {
               this.loadChatDetails(response);
-              if(this.getLastChatId(this.chats) != this.getLastChatId(response.chats)) {
+              if(this.getLastChatId(response.chats) != this.getLastChatId(this.chats)) {
                 this.addChatsFront(response.chats);
               }
-              return response.chats;
-            })
-          )
-        })
-      ))
-    )
-    .subscribe(
-        (response) => { }
-    )
-  }
-
-  getLastChatId(chats:Chat[]) {
-    var chat_id:number = null;
-    if(chats.length > 0) {
-      chat_id = chats[chats.length-1].chat_id;
+            }
+          }
+        );
     }
-    return chat_id;
-  }
 
-  loadChatDetails(response: ChatsResponse) {
-    this.friend = response.friend;
-    this.user = response.user;
-    this.total = response.total;
-  }
-
-  scrollWindowBottom() {
-    $('.msg_card_body').scrollTop($('.msg_card_body')[0].scrollHeight + 50);
-  }
-
-  /**
-   * Merge chats in `this.chats` in front 
-   * 
-   * @example
-   * `this.chats` + Chat[]`
-   * 
-   * @param chats `Chat[]`
-   */
-  addChatsFront(chats:Chat[]) {
-    if(chats.length != 0) {
-      this.chats = this.chats.concat(chats);
-      const timeOut = setTimeout(() => {
-        this.scrollWindowBottom();
-        clearTimeout(timeOut);
-      }, 500);
-    }
-  }
-
-  deleteText($event:number) {
-    this.chats.map((chat, index, array) => {
-      if(chat.chat_id == $event) {
-        this.chats = this.chats.filter((chat) => chat.chat_id != $event);
+    /**
+     * Get last chat id in chats array
+     * 
+     * @param chats 
+     */
+    getLastChatId(chats:Chat[]) {
+      var chat_id:number = 0;
+      if(chats.length > 0) {
+        chat_id = chats[chats.length-1].chat_id;
       }
-    });
-  }
-
-  /**
-   * Merge chats in `this.chats` in front 
-   * 
-   * @example
-   * `Chat[]` + `this.chats`
-   * 
-   * @param chats `Chat[]`
-   */
-  addChatsBack(chats:Chat[]) {
-
-  }
-
-  /**
-   * Get new data if friend as been click
-   * 
-   * @param $event 
-   */
-  newChatWindow($event:string) {
-    if(this.friend != $event) {
-      this.ngOnInit();
+      return chat_id;
     }
-  } 
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.chats = [];
-    this.friend = null;
-    this.user = null;
+    /**
+     * Load chats details from respnse
+     * 
+     * @param response 
+     */
+    loadChatDetails(response: ChatsResponse) {
+      this.friend = response.friend;
+      this.user = response.user;
+      this.total = response.total;
+    }
+
+    /**
+     * Scroll page to last chats
+     */
+    scrollWindowBottom() {
+      $('.msg_card_body').scrollTop($('.msg_card_body')[0].scrollHeight + 50);
+    }
+
+    /**
+     * Merge chats in `this.chats` in front 
+     * 
+     * @example
+     * `this.chats` + Chat[]`
+     * 
+     * @param chats `Chat[]`
+     */
+    addChatsFront(chats:Chat[]) {
+      if(chats.length != 0) {
+        this.chats = this.chats.concat(chats);
+        const timeOut = setTimeout(() => {
+          this.scrollWindowBottom();
+          clearTimeout(timeOut);
+        }, 500);
+      }
+    }
+
+    /**
+     * Merge chats in `this.chats` in front 
+     * 
+     * @example
+     * `Chat[]` + `this.chats`
+     * 
+     * @param chats `Chat[]`
+     */
+    addChatsBack(chats:Chat[]) {
+
+    }
+
+    /**
+     * Delete chat form chat list
+     * 
+     * @param $event 
+     */
+    deleteText($event:number) {
+      this.chats = this.chats.filter((chat) => chat.chat_id != $event);
+    }
+
+    /**
+     * Delete all text
+     * 
+     * @param $event 
+     */
+    deleteAllText($event:number) {
+
+    }
+
+    /**
+     * Get new data if friend as been click
+     * 
+     * @param $event 
+     */
+    newChatWindow($event:string) {
+      if(this.friend != $event) {
+        this.getChats();
+      }
+    } 
+
+    ngOnDestroy() {
+      this.chats = [];
+      this.friend = null;
+      this.user = null;
+      if(this.getChatsSubscription) {
+        this.getChatsSubscription.unsubscribe();
+      }
+    }
+
   }
-
-}

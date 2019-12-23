@@ -25,3 +25,9 @@ export interface SendTextResponse {
     message:string;
     data:SendText;
 }
+
+export interface Response {
+    status:boolean;
+    message:string;
+    data:[];
+}

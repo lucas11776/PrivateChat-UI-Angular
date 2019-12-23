@@ -30,10 +30,12 @@
                             <div *ngFor="let chat of chats">
                                 <div [ngSwitch]="chat.from">
                                     <div *ngSwitchCase="friend">
-                                        <app-friend-text [chat]="chat"></app-friend-text>
+                                        <app-friend-text [chat]="chat"
+                                                         (delete)="deleteText($event)"></app-friend-text>
                                     </div>
                                     <div *ngSwitchDefault>
-                                        <app-user-text [chat]="chat" (delete)="deleteText($event)"></app-user-text>
+                                        <app-user-text [chat]="chat" 
+                                                       (delete)="deleteText($event)"></app-user-text>
                                     </div>
                                 </div>
                             </div>

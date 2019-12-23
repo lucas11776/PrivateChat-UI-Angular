@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { concatMap, expand } from 'rxjs/operators';
 import { SuiModalService } from 'ng2-semantic-ui';
@@ -34,17 +34,29 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     private date: DateService,
     private router: Router
   ) {
+    this.friend = this.activatedRoute.snapshot.params.username;
     // listen end of router change event (initialize data)
     this.router.events.subscribe((event:NavigationEnd) => {
+      if(event instanceof NavigationStart) {
+        this.friend = null;
+        this.ngOnDestroy();
+      }
       if(event instanceof NavigationEnd) {
-        this.ngOnInit();
+        const timeOut = setTimeout(() => {
+          this.friend = this.activatedRoute.snapshot.params.username;
+          this.ngOnInit();
+          clearTimeout(timeOut);
+        }, 750); 
       }
     });
+    
   }
   ngOnInit() {
-    this.friend = this.activatedRoute.snapshot.params.username;
-    this.getFriendsDetails();
-    this.getLastSeen();
+    if(this.friend) {
+      this.getFriendsDetails();
+      this.getLastSeen();
+    }
+    
   }
 
   /**

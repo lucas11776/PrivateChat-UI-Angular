@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { ChatsResponse, SendText, SendTextResponse } from '../model/chats';
+import { ChatsResponse, SendText, SendTextResponse, Response } from '../model/chats';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,19 @@ export class ChatsService {
    */
   sendText(chat:SendText) : Observable<SendTextResponse> {
     return this.http.post<SendTextResponse>('api/chats/send/text', chat).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
+  }
+
+  /**
+   * Delete a text from api
+   * 
+   * @param chatId Chat ID
+   * @returns An `Observable` of type `Response`
+   */
+  deleteText(chatId:number) {
+    return this.http.post<Response>('api/chats/delete', {'chat_id': chatId}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )

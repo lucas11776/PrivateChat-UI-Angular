@@ -1,8 +1,19 @@
+<ng-template let-popup #popupTemplate>
+    <div class="content">
+        <div class="ui horizontal link list">
+            <div class="item">
+                <a class="text-muted pointer" (click)="deleteText()" (click)="popup.close()">
+                    <i class="trash orange icon"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-template>
 <div class="d-flex justify-content-start mb-4">
     <div class="img_cont_msg">
         <img [src]="chat?.profile_picture" class="rounded-circle user_img_msg">
     </div>
-    <div class="msg_cotainer">
+    <div class="msg_cotainer" suiPopup popupPlacement="top right" [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
         <div [ngSwitch]="chat?.type">
             <div *ngSwitchCase="'vidoe'">...</div>
             <div *ngSwitchCase="'picture'">...</div>
