@@ -6,7 +6,9 @@ import { SettingsComponent } from './settings.component';
 
 
 @NgModule({
-  declarations: [SettingsComponent],
+  declarations: [
+    SettingsComponent
+  ],
   imports: [
     CommonModule,
     SettingsRoutingModule
