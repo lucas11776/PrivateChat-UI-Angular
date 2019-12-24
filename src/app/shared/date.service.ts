@@ -44,16 +44,17 @@ export class DateService {
       return 'Online';
     }
 
-    // Seconds
+    // Minute
     if(LAST_SEEN_SECONDS < 60) {
       return 'last seen ' + LAST_SEEN_SECONDS + (LAST_SEEN_SECONDS == 1 ? ' second ' : ' seconds ') + ' ago.';
     }
 
-    // Minutes
+    // Two Minutes
     if(LAST_SEEN_SECONDS <= (60*2)) {
       return 'last seen 1 minute ago';
     }
 
+    // Hour
     if(LAST_SEEN_SECONDS < (60*60)) {
       const MINUTES = Math.floor(LAST_SEEN_SECONDS/60);
       return 'last seen ' + MINUTES + (MINUTES == 1 ? ' minute ' : ' minutes ') + 'ago.'; 
@@ -75,19 +76,25 @@ export class DateService {
 
     // Today
     if(timestamp > this.getTodayTimestamp()) {
-      return 'last seen Today at ' + (TIME.getHours() > 12 ? (TIME.getHours()-12) + ':' + TIME.getMinutes() + 'pm' : (TIME.getHours() + ':' + TIME.getMinutes() + 'am'));
+      return 'last seen Today at ' + (
+        TIME.getHours() > 12 ? 
+          (TIME.getHours()-12) + ':' + TIME.getMinutes() + 'pm' :
+          (TIME.getHours() + ':' + TIME.getMinutes() + 'am'));
     }
 
     // Yesterday
     if(timestamp > this.getYesterdayTimestamp()) {
       if(TIME.getHours() > 12) {
         var _hour = TIME.getHours() - 12;
-        return 'last seen Yesterday at ' + _hour + ':' + TIME.getSeconds() + 'pm'
+        return 'last seen Yesterday at ' + _hour + ':' + TIME.getMinutes() + 'pm'
       }
-      return 'last seen Yesterday at ' + TIME.getHours() + ':' + TIME.getSeconds() + 'am';
+      return 'last seen Yesterday at ' + TIME.getHours() + ':' + TIME.getMinutes() + 'am';
     }
 
-    var time = (TIME.getHours() > 12 ? (TIME.getHours()-12) + ':' + TIME.getMinutes() + 'pm' : (TIME.getHours() + ':' + TIME.getMinutes() + 'am'))
+    var time = (
+      TIME.getHours() > 12 ? 
+        (TIME.getHours()-12) + ':' + TIME.getMinutes() + 'pm' : 
+        (TIME.getHours() + ':' + TIME.getMinutes() + 'am'));
     return 'last seen at ' + time + ' ' + this.dateOfWeek[TIME.getDay()] + ' ' + TIME.getDate() + ' ' + this.monthsOfYear[TIME.getMonth()];
   }
 
