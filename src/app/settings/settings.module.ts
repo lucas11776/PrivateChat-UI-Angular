@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
+import { ChangeProfilePictureComponent } from './change-profile-picture/change-profile-picture.component';
 
 
 @NgModule({
   declarations: [
-    SettingsComponent
+    SettingsComponent,
+    ChangeProfilePictureComponent
   ],
   imports: [
     CommonModule,
