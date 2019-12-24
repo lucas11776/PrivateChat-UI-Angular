@@ -24,7 +24,7 @@
                 <div class="col-md-8 col-xl-6 chat">
                     <div class="card">
                         <div class="card-header msg_head">
-                            <app-chat-window-header></app-chat-window-header>
+                            <app-chat-window-header (delete)="deleteAllText()"></app-chat-window-header>
                         </div>
                         <div class="card-body msg_card_body">
                             <div *ngFor="let chat of chats">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { concatMap, expand } from 'rxjs/operators';
@@ -18,6 +18,8 @@ declare var $ : any;
   styleUrls: ['./chat-window-header.component.css']
 })
 export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
+
+  @Output('delete') delete = new EventEmitter();
 
   lastSeenSubscription:Subscription;
   friendsDetailSubscription:Subscription;
@@ -120,6 +122,23 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
    */
   unfriend() {
 
+  }
+
+  /**
+   * Delete all chats confirmation modal
+   */
+  clearChatsConfirmation() {
+    this.suiModalServ
+      .open(new ConfirmModal('Delete all chats', 'Are your sure you want to delete all chats with ' + this.friend + '.'))
+      .onApprove(() => this.clearChats())
+      .onDeny(() => {});
+  }
+
+  /**
+   * Clear all chats form database
+   */
+  clearChats() {
+    this.delete.emit(true);
   }
 
   ngOnDestroy() {

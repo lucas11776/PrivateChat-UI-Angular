@@ -36,8 +36,7 @@
     constructor(
       private chatServ: ChatsService,
       private activatedRoute: ActivatedRoute,
-      private router: Router
-    ) {
+      private router: Router ) {
       this.friend = this.activatedRoute.snapshot.params.username;
       // router change event
       this.router.events.subscribe((event) => {
@@ -80,6 +79,10 @@
     }
 
     /**
+     * Dle
+     */
+
+    /**
      * Get last chat id in chats array
      * 
      * @param chats 
@@ -101,13 +104,6 @@
       this.friend = response.friend;
       this.user = response.user;
       this.total = response.total;
-    }
-
-    /**
-     * Scroll page to last chats
-     */
-    scrollWindowBottom() {
-      $('.msg_card_body').scrollTop($('.msg_card_body')[0].scrollHeight + 50);
     }
 
     /**
@@ -150,12 +146,12 @@
     }
 
     /**
-     * Delete all text
+     * Delete all text in database
      * 
      * @param $event 
      */
-    deleteAllText($event:number) {
-
+    deleteAllText() {
+      this.chats = [];
     }
 
     /**
@@ -168,6 +164,13 @@
         this.getChats();
       }
     } 
+
+    /**
+     * Scroll chats div at the bottom
+     */
+    scrollWindowBottom() {
+      $('.msg_card_body').scrollTop($('.msg_card_body')[0].scrollHeight + 50);
+    }
 
     ngOnDestroy() {
       this.chats = [];

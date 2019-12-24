@@ -15,7 +15,7 @@
 <span id="action_menu_btn" (click)="menu()"><i class="ellipsis vertical icon"></i></span>
 <div class="action_menu">
     <ul>
-        <li class="text-capitalize" (click)="unfriendConfirmation()"><i class="user red icon"></i> Unfriend {{ friend }}</li>
-        <li><i class="trash red icon"></i> Clear All Chats</li>
+        <li class="text-capitalize" (click)="unfriendConfirmation($event)"><i class="user red icon"></i> Unfriend {{ friend }}</li>
+        <li (click)="clearChatsConfirmation()"><i class="trash red icon"></i> Delete All Chats</li>
     </ul>
 </div>
