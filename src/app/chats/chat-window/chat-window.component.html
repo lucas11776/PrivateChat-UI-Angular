@@ -42,6 +42,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="ui active dimmer" *ngIf="loading">
+                                <div class="ui text loader">Getting Chats...</div>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <app-chat-window-input></app-chat-window-input>

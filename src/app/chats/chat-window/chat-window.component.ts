@@ -19,13 +19,12 @@
     friend:string;
     search:string;
     total:number;
+    loading:boolean;
     getChatsSubscription:Subscription;
     routeSubscription:Subscription;
     chats:Chat[] = [];
     limit = 30;
     requestTime = 500; // 500ms
-    firstRequest = true;
-    routeChange = false;
 
     /**
      * Listen to route change and call ngOnInit to initialize new data
@@ -62,6 +61,7 @@
      * Get lastest chats between user and friend
      */
     getChats() {
+      this.loading = true;
       this.getChatsSubscription = this.chatServ.chats(this.friend, this.limit, 0)
         .pipe(
           expand((_) => timer(500).pipe(
@@ -75,6 +75,7 @@
               if(this.getLastChatId(response.chats) != this.getLastChatId(this.chats)) {
                 this.addChatsFront(response.chats);
               }
+              this.loading = false;
             }
           }
         );
