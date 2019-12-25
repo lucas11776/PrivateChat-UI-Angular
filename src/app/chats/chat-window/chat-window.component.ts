@@ -17,6 +17,7 @@
 
     user:string;
     friend:string;
+    search:string;
     total:number;
     getChatsSubscription:Subscription;
     routeSubscription:Subscription;
@@ -36,7 +37,8 @@
     constructor(
       private chatServ: ChatsService,
       private activatedRoute: ActivatedRoute,
-      private router: Router ) {
+      private router: Router
+    ) {
       this.friend = this.activatedRoute.snapshot.params.username;
       // router change event
       this.router.events.subscribe((event) => {
@@ -77,10 +79,6 @@
           }
         );
     }
-
-    /**
-     * Dle
-     */
 
     /**
      * Get last chat id in chats array

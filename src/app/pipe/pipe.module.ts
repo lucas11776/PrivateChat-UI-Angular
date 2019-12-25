@@ -14,7 +14,8 @@ import { FilterUsernamePipe } from './filter-username.pipe';
   ],
   exports: [
     LastSeenPipe,
-    DatePipe
+    DatePipe,
+    FilterUsernamePipe
   ],
   imports: [
     CommonModule

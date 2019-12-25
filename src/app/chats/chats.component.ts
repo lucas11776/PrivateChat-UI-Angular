@@ -15,6 +15,7 @@ export class ChatsComponent implements OnInit {
 
   friends: Observable<FriendsChatPreview[]>
   requestTime = 1000;
+  search:string = '';
 
   constructor(
     private friendServ: FriendsService,

@@ -14,12 +14,17 @@
                             </div>
                         </div>
                         <div class="card-body contacts_body">
-                            <ul class="contacts w-100">
-                                <app-friend-request *ngFor="let request of (friendsRequests | async)" 
+                            <ul class="contacts w-100" *ngIf="(friendsRequests | async) as requests; else loading">
+                                <app-friend-request *ngFor="let request of requests" 
                                                     [friend]="request"
                                                     (accept)="confirmAccept($event)"
                                                     (decline)="confirmDecline($event)"></app-friend-request>
                             </ul>
+                            <ng-template #loading>
+                                <div class="ui active dimmer">
+                                    <div class="ui text loader">Getting Friends Requests...</div>
+                                </div>
+                             </ng-template>
                         </div>
                         <div class="card-footer"></div>
                     </div>

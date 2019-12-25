@@ -16,7 +16,9 @@ export class FriendsWindowComponent implements OnInit {
 
   @Output('open') open = new EventEmitter();
   @Input('active') active:string;
-  friends: Observable<FriendsChatPreview[]>
+  @Input('search') search:string;
+  
+  friends$: Observable<FriendsChatPreview[]>
   requestTime = 2500;
 
   constructor(
@@ -27,7 +29,7 @@ export class FriendsWindowComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.friends = this.friendServ.friendsChatPreview().pipe(
+    this.friends$ = this.friendServ.friendsChatPreview().pipe(
       map(event => {
         console.log(this.activatedRoute.snapshot.params);
         return event;

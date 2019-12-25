@@ -1,29 +1,36 @@
-<li [ngClass]="{'active': friend?.username == active}" *ngFor="let friend of (friends | async)">
-    <div class="d-flex bd-highlight pointer" (click)="openChat(friend.username)">
-        <div class="img_cont">
-            <img [src]="friend.profile_picture"
-                class="rounded-circle user_img">
-            <span class="online_icon" [ngClass]="{'offline': userOnline(friend.last_seen) == false}"></span>
-        </div>
-        <div class="user_info w-100 pr-1">
-            <div class="row">
-                <div class="col-9 pb-2">
-                    <span class="text-capitalize">{{ friend.username }} {{ friend.nessages }}</span>
-                    <div [ngSwitch]="friend.type">
-                        <div *ngSwitchCase="'text'">
-                            <p class="text-white">
-                                <i class="chat icon"></i> {{ friend.content | slice:0:45 }}<span *ngIf="friend.content.length > 45">...</span>
-                            </p>
+<ul class="contacts w-100" *ngIf="(friends$ | async) as friends; else loading">
+    <li [ngClass]="{'active': friend?.username == active}" *ngFor="let friend of friends | filterUsername:search">
+        <div class="d-flex bd-highlight pointer" (click)="openChat(friend.username)">
+            <div class="img_cont">
+                <img [src]="friend.profile_picture"
+                    class="rounded-circle user_img">
+                <span class="online_icon" [ngClass]="{'offline': userOnline(friend.last_seen) == false}"></span>
+            </div>
+            <div class="user_info w-100 pr-1">
+                <div class="row">
+                    <div class="col-9 pb-2">
+                        <span class="text-capitalize">{{ friend.username }} {{ friend.nessages }}</span>
+                        <div [ngSwitch]="friend.type">
+                            <div *ngSwitchCase="'text'">
+                                <p class="text-white">
+                                    <i class="chat icon"></i> {{ friend.content | slice:0:45 }}<span *ngIf="friend.content.length > 45">...</span>
+                                </p>
+                            </div>
+                            <div *ngSwitchDefault>...</div>
                         </div>
-                        <div *ngSwitchDefault>...</div>
                     </div>
-                </div>
-                <div class="col-3 pt-2 text-center" *ngIf="friend.messages > 0">
-                    <button class="ui circular tiny icon teal button" (click)="openChat(friend.username)">
-                        <i class="chat icon"></i>
-                    </button>
+                    <div class="col-3 pt-2 text-center" *ngIf="friend.messages > 0">
+                        <button class="ui circular tiny icon teal button" (click)="openChat(friend.username)">
+                            <i class="chat icon"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+    </li>
+</ul>
+<ng-template #loading>
+    <div class="ui active dimmer">
+        <div class="ui text loader">Getting Friends...</div>
     </div>
-</li>
+ </ng-template>

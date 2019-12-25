@@ -18,7 +18,7 @@
                         </div>
                         <div class="card-body contacts">
                             <ul class="contacts w-100" *ngIf="(friends$ | async) as friends; else loading">
-                                <li class="pointer" *ngFor="let friend of friends" >
+                                <li class="pointer" *ngFor="let friend of friends | filterUsername:search" >
                                     <div class="d-flex bd-highlight" (click)="openChat(friend.username)">
                                         <div class="img_cont">
                                             <img [src]="friend.profile_picture" class="rounded-circle user_img">
