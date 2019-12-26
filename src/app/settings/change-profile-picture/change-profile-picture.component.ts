@@ -13,16 +13,23 @@ export class ChangeProfilePictureComponent implements OnInit,OnDestroy {
 
   account:Account;
   accountSubscription:Subscription;
+  loading:boolean;
 
   constructor(
     private userServ: UserService
   ) { }
 
   ngOnInit() {
-    const SUBSCRIPTION = this.userServ.account()
+    this.loading = true;
+    this.accountSubscription = this.userServ.account()
       .subscribe(
-        (response) => this.account = response,
-        (error) => this.ngOnInit()
+        (response) => {
+          this.account = response;
+          this.loading = false;
+        },
+        (error) => {
+          this.ngOnInit()
+        }
       );
   }
   

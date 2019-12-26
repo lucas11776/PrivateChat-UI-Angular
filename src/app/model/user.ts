@@ -3,3 +3,15 @@ export interface Account {
     username:string;
     email:string;
 }
+
+export interface ResetPassword {
+    old_password:string;
+    new_password:string;
+    confirm_password:string;
+}
+
+export interface ResetPasswordResponse {
+    status:boolean;
+    message:string;
+    date:ResetPassword;
+}

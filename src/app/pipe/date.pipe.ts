@@ -21,7 +21,7 @@ export class DatePipe implements PipeTransform {
       return TIME + ' Yesterday';
     }
 
-    return TIME;
+    return date.getDate() + ' ' + this.date.monthsOfYear[date.getMonth()] + ' ' + date.getFullYear() + ' ' + TIME + ' ' ;
   }
 
 }

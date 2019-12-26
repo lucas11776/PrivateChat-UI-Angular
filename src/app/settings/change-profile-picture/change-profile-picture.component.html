@@ -1,6 +1,9 @@
 <div class="ui dimmer">
     <div class="ui text loader">Uploading Profile Picture...</div>
 </div>
+<div class="ui active dimmer" *ngIf="loading">
+    <div class="ui text loader">Getting Account Details...</div>
+</div>
 <div class="ui header">
     <i class="user circular icon"></i>
     <div class="content">
