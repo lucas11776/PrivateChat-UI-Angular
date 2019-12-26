@@ -6,6 +6,7 @@ import { expand, concatMap } from 'rxjs/operators';
 import { AccountService } from '../../shared/account.service';
 import { NotificationService } from '../../shared/notification.service';
 import { Notification } from '../../model/notification';
+import { SoundService } from '../../shared/sound.service';
 
 declare var $ : any;
 
@@ -25,7 +26,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private accountServ: AccountService,
     private router: Router,
-    private notificationServ: NotificationService
+    private notificationServ: NotificationService,
+    private soundServ: SoundService
   ) { }
 
   @HostListener('window:resize', ['$event'])
@@ -76,7 +78,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
         concatMap((_) => this.notificationServ.notifications())
       ))
     ).subscribe(
-      (response) => this.notification = response
+      (response) => {
+        if(this.notification) {
+          if(response.chats > this.notification.chats) {
+            this.soundServ.notification();
+          }
+        }
+        this.notification = response;
+      }
     )
   }
 

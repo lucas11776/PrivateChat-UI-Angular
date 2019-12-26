@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
-import { expand, concatMap } from 'rxjs/operators';
+import { expand, concatMap, subscribeOn } from 'rxjs/operators';
+import PushNotification from 'push-js';
 
 import { AccountService } from './shared/account.service';
 
