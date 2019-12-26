@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
+import Push from 'push-js';
 
 import { AccountService } from '../../shared/account.service';
 import { NotificationService } from '../../shared/notification.service';
@@ -40,6 +41,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
    * `requestTime` repeatly.
    */
   ngOnInit() {
+    
+
     this.loggedIn();
     this.replaceSidebarSpace();
     this.getNotification();

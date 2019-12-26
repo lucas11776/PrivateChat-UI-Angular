@@ -16,6 +16,8 @@ import { ConfirmModalComponent } from './template/confirm-modal/confirm-modal.co
 import { InfoModalComponent } from './template/info-modal/info-modal.component';
 import { SettingsModule } from './settings/settings.module';
 import { PipeModule } from './pipe/pipe.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { PipeModule } from './pipe/pipe.module';
     ChatsModule,
     SuiModule,
     SettingsModule,
-    PipeModule
+    PipeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [
       ConfirmModalComponent,
