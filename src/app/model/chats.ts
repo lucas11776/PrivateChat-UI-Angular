@@ -1,6 +1,6 @@
 export interface Chat {
     chat_id:number;
-    creeated:string;
+    created:string;
     profile_picture:string;
     from:string;
     to:string;

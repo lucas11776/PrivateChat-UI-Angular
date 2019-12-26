@@ -21,7 +21,7 @@ export class UserTextComponent implements OnInit, OnDestroy {
 
   constructor(
     private chatServ: ChatsService,
-    private suiModalServ: SuiModalService
+    public suiModalServ: SuiModalService
   ) { }
 
   ngOnInit() {

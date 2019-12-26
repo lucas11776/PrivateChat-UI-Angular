@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
-import Push from 'push-js';
 
 import { AccountService } from '../../shared/account.service';
 import { NotificationService } from '../../shared/notification.service';
@@ -18,8 +17,8 @@ declare var $ : any;
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
-  loggedin:boolean;
-  notification:Notification;
+  public loggedin:boolean;
+  public notification:Notification;
   loggedinSubscription:Subscription;
   notificationSubscription:Subscription;
   requestTime = 2500; // miliseconds
@@ -27,7 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private accountServ: AccountService,
     private router: Router,
-    private notificationServ: NotificationService,
+    public notificationServ: NotificationService,
     private soundServ: SoundService
   ) { }
 
@@ -41,8 +40,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
    * `requestTime` repeatly.
    */
   ngOnInit() {
-    
-
     this.loggedIn();
     this.replaceSidebarSpace();
     this.getNotification();

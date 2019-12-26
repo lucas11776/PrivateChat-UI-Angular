@@ -13,5 +13,5 @@ export interface ResetPassword {
 export interface ResetPasswordResponse {
     status:boolean;
     message:string;
-    date:ResetPassword;
+    data:ResetPassword;
 }

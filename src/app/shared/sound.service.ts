@@ -7,7 +7,9 @@ export class SoundService {
 
   notificationAudio = new Audio('assets/audio/notification.mp3');
 
-  constructor() { }
+  constructor() {
+    this.notificationAudio.load();
+  }
 
   /**
    * Play notification audio track
