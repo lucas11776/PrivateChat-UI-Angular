@@ -65,5 +65,18 @@ export class ChatsService {
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
   }
+
+  /**
+   * Clear all friend chats from api
+   * 
+   * @param username Friend Usernaem
+   * @return An `Observable` of type `Response`
+   */
+  clearChats(username:string) : Observable<Response> {
+    return this.http.post<Response>('api/chats/clear/all', {'username':username}).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
+  }
   
 }

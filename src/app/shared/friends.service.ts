@@ -118,13 +118,26 @@ export class FriendsService {
    * Accept friends requests
    * 
    * @param username friend username
-   * @return AN `Observable` of type ``
+   * @return AN `Observable` of type `Response`
    */
   declineFriendRequest(username:string) : Observable<Response> {
     return this.http.post<Response>('api/friends/requests/decline', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
+  }
+
+  /**
+   * Unfriend user friend
+   *  
+   * @param username friend username
+   * @return An `Observable` of type `Response`
+   */
+  unfriend(username:string) {
+    return this.http.post<Response>('api/friends/unfriend', {'username':username}).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
   }
 
   /**

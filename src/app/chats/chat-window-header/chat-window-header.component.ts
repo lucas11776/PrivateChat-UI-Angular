@@ -8,6 +8,8 @@ import { ConfirmModal } from '../../template/confirm-modal/confirm-modal.compone
 import { FriendsService } from '../../shared/friends.service';
 import { Friend } from '../../model/friends';
 import { DateService } from '../../shared/date.service';
+import { InfoModal } from '../../template/info-modal/info-modal.component';
+import { ChatsService } from '../../shared/chats.service';
 
 // Jqeury Var
 declare var $ : any;
@@ -33,6 +35,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     private elemRef: ElementRef,
     private suiModalServ: SuiModalService,
     private friendServ: FriendsService,
+    private chatServ: ChatsService,
     private date: DateService,
     private router: Router
   ) {
@@ -52,8 +55,11 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
         }, 750); 
       }
     });
-    
   }
+
+  /**
+   * Initialization
+   */
   ngOnInit() {
     if(this.friend) {
       this.getFriendsDetails();
@@ -138,7 +144,26 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
    * Clear all chats form database
    */
   clearChats() {
-    this.delete.emit(true);
+    const SUBSCRIPTION = this.chatServ.clearChats(this.friend)
+      .subscribe(
+        (response) => {
+          if(response.status) {
+            this.delete.emit(true);
+          } else {
+            this.suiModalServ
+              .open(new ConfirmModal('Failed chat all chats please try again.', response.message))
+              .onApprove(() => this.clearChats())
+              .onDeny(() => { });
+          }
+          SUBSCRIPTION.unsubscribe();
+        },
+        (error) => {
+          this.suiModalServ
+            .open(new ConfirmModal('Something went wrong try again.', error))
+            .onApprove(() => this.clearChats())
+            .onDeny(() => { });
+        }
+      )
   }
 
   ngOnDestroy() {
