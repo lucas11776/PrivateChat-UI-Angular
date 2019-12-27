@@ -119,7 +119,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
   unfriendConfirmation() {
     this.suiModalServ
       .open(new ConfirmModal('Unfriend ' + this.friend, 'Are you sure you want to unfriend ' + this.friend.toUpperCase() + '.'))
-      .onApprove(() => {})
+      .onApprove(() => this.unfriend())
       .onDeny(() => {});
   }
 
@@ -127,7 +127,26 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
    * Unfriend friend
    */
   unfriend() {
-
+    const SUBSCRIPTION = this.friendServ.unfriend(this.friend)
+      .subscribe(
+        (response) => {
+          if(response.status) {
+            this.router.navigate(['chats']);
+          } else {
+            this.suiModalServ
+              .open(new ConfirmModal('Failed to unfriend ' + this.friend + ' try again.', response.message))
+              .onApprove(() => this.unfriend())
+              .onDeny(() => {})
+          }
+          SUBSCRIPTION.unsubscribe();
+        },
+        (error) => {
+          this.suiModalServ
+            .open(new ConfirmModal('Something went wrong', error))
+            .onApprove(() => this.unfriend())
+            .onDeny(() => {})
+        }
+      )
   }
 
   /**

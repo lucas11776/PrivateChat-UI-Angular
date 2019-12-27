@@ -5,17 +5,17 @@
     </a>
     <a class="item" *ngIf="loggedin" [routerLink]="['chats']" [routerLinkActive]="['active']">
         <i class="chat icon" *ngIf="notification?.chats">
-            <i class="ui circular teal label">{{ notification?.chats }}</i>
+            <i class="ui circular teal label" *ngIf="notification?.chats > 0">{{ notification?.chats }}</i>
         </i> Chats 
     </a>
     <a class="item" *ngIf="loggedin" [routerLink]="['friends']" [routerLinkActive]="['active']">
         <i class="users icon" *ngIf="notification?.friends">
-            <i class="ui circular teal label">{{ notification?.friends }}</i>
+            <i class="ui circular teal label" *ngIf="notification?.friends > 0">{{ notification?.friends }}</i>
         </i> Friends
     </a>
     <a class="item" *ngIf="loggedin" [routerLink]="['requests']" [routerLinkActive]="['active']">
-        <i class="smile icon" *ngIf="notification?.request">
-            <i class="ui circular teal label">{{ notification?.request }}</i>
+        <i class="smile icon">
+            <i class="ui circular teal label" *ngIf="notification?.requests > 0">{{ notification?.requests }}</i>
         </i>Requests
     </a>
     <a class="item" *ngIf="loggedin" [routerLink]="['search']" [routerLinkActive]="['active']">
