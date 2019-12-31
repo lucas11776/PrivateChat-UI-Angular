@@ -21,10 +21,11 @@
     total:number;
     loading:boolean;
     getChatsSubscription:Subscription;
+    getNewChatsSubscription:Subscription;
     routeSubscription:Subscription;
     chats:Chat[] = [];
     limit = 30;
-    requestTime = 500; // 500ms
+    requestTime = 500; // Get new chats time (0.5s)
 
     /**
      * Listen to route change and call ngOnInit to initialize new data
@@ -45,8 +46,11 @@
           this.ngOnDestroy();
         }
         if(event instanceof NavigationEnd) {
-          this.friend = this.activatedRoute.snapshot.params.username;
-          this.ngOnInit();
+          const CURRENT_URL = '/' + activatedRoute.snapshot.url[0].path + '/' + this.activatedRoute.snapshot.params.username;
+          if(router.url == CURRENT_URL) {
+            this.friend = this.activatedRoute.snapshot.params.username;
+            this.ngOnInit();
+          }
         }
       });
     }
@@ -64,19 +68,26 @@
       this.loading = true;
       this.getChatsSubscription = this.chatServ.chats(this.friend, this.limit, 0)
         .pipe(
-          expand((_) => timer(500).pipe(
-            concatMap((_) => this.chatServ.newChats(this.friend, this.getLastChatId(this.chats)))
-          ))
+          expand((chats) => {
+            if(this.friend) {
+              return timer(this.requestTime).pipe(
+                concatMap((_) => this.chatServ.newChats(this.friend, this.getLastChatId(this.chats)))
+              )
+            }
+            return null; 
+          })
         )
+        // .pipe(
+        //   expand((_) => timer(500).pipe(
+        //     concatMap((_) => this.chatServ.newChats(this.friend, this.getLastChatId(this.chats)))
+        //   ))
+        // )
         .subscribe(
           (response) => {
-            if(response.friend == this.friend) {
-              this.loadChatDetails(response);
-              if(this.getLastChatId(response.chats) != this.getLastChatId(this.chats)) {
-                this.addChatsFront(response.chats);
-              }
-              this.loading = false;
+            if(response != null) {
+              this.loadResponse(response);
             }
+            this.loading = false;
           },
           (error) => {
             this.loading = false;
@@ -84,8 +95,41 @@
         );
     }
 
+    /**
+     * Get new chats every
+     */
     getNewChats() {
+      this.getNewChatsSubscription = timer(this.requestTime).subscribe(() => {
+        if(this.friend != null) {
+          const SUBSCRIPTION = this.chatServ.newChats(this.friend, this.getLastChatId(this.chats))
+            .subscribe(
+              (response) => {
+                this.loadResponse(response);
+                SUBSCRIPTION.unsubscribe();
+              },
+              (error) => {
+                const TIMEOUT = setTimeout(() => {
+                  this.getNewChats();
+                  clearTimeout(TIMEOUT);
+                }, 10000);
+              }
+            )
+        } 
+      });
+    }
 
+    /**
+     * Load chats response from api
+     * 
+     * @param response `ChatsResponse` 
+     */
+    loadResponse(response: ChatsResponse) {
+      if(response.friend == this.friend) {
+        this.loadChatDetails(response);
+        if(this.getLastChatId(response.chats) != this.getLastChatId(this.chats)) {
+          this.addChatsFront(response.chats);
+        }
+      }
     }
 
     /**
@@ -95,8 +139,11 @@
      */
     getLastChatId(chats:Chat[]) {
       var chat_id:number = 0;
-      if(chats.length > 0) {
-        chat_id = chats[chats.length-1].chat_id;
+      if(typeof(chats) == 'object') {
+        var len = chats.length;
+        if(len > 0) {
+          chat_id = chats[chats.length-1].chat_id;
+        }
       }
       return chat_id;
     }
@@ -182,6 +229,9 @@
       this.chats = [];
       this.friend = null;
       this.user = null;
+      if(this.getNewChatsSubscription) {
+        this.getNewChatsSubscription.unsubscribe();
+      }
       if(this.getChatsSubscription) {
         this.getChatsSubscription.unsubscribe();
       }

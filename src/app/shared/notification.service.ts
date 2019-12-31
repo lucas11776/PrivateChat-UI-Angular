@@ -18,7 +18,7 @@ export class NotificationService {
    * @return An `Observable` of type `Notification`
    */
   notifications() : Observable<Notification> {
-    return this.http.get<Notification>('api/notifications').pipe(
+    return this.http.get<Notification>('notifications').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );

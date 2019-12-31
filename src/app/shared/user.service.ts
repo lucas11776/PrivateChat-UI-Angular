@@ -20,7 +20,7 @@ export class UserService {
    * @return An `Observable` of type `Account`
    */
   account() : Observable<Account> {
-    return this.http.get<Account>('api/account/details').pipe(
+    return this.http.get<Account>('account/details').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -33,7 +33,7 @@ export class UserService {
    * @return An `Observable` of type 'RestPassword'
    */
   changePassword(reset:ResetPassword) : Observable<ResetPasswordResponse> {
-    return this.http.post<ResetPasswordResponse>('api/account/change/password', reset).pipe(
+    return this.http.post<ResetPasswordResponse>('account/change/password', reset).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )

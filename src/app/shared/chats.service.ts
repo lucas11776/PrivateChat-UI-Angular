@@ -21,7 +21,7 @@ export class ChatsService {
    * @return An `Observable` of type `ChatsResponse`
    */
   chats(username:string, limit:number, offset:number) : Observable<ChatsResponse> {
-    return this.http.get<ChatsResponse>('api/chats/' + username + '?limit='+ limit + '&offset=' + offset).pipe(
+    return this.http.get<ChatsResponse>('chats/' + username + '?limit='+ limit + '&offset=' + offset).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -34,7 +34,7 @@ export class ChatsService {
    * @param chat_id Latest text from chats
    */
   newChats(username:string, chat_id:number) : Observable<ChatsResponse> {
-    return this.http.get<ChatsResponse>('api/chats/latest/'+username+'?chat_id='+chat_id).pipe(
+    return this.http.get<ChatsResponse>('chats/latest/'+username+'?chat_id='+chat_id).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -47,7 +47,7 @@ export class ChatsService {
    * @return An `Observable` of type `SendTextResponse`
    */
   sendText(chat:SendText) : Observable<SendTextResponse> {
-    return this.http.post<SendTextResponse>('api/chats/send/text', chat).pipe(
+    return this.http.post<SendTextResponse>('chats/send/text', chat).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -60,7 +60,7 @@ export class ChatsService {
    * @returns An `Observable` of type `Response`
    */
   deleteText(chatId:number) {
-    return this.http.post<Response>('api/chats/delete', {'chat_id': chatId}).pipe(
+    return this.http.post<Response>('chats/delete', {'chat_id': chatId}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -73,7 +73,7 @@ export class ChatsService {
    * @return An `Observable` of type `Response`
    */
   clearChats(username:string) : Observable<Response> {
-    return this.http.post<Response>('api/chats/clear/all', {'username':username}).pipe(
+    return this.http.post<Response>('chats/clear/all', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )

@@ -19,7 +19,7 @@ export class FriendsService {
    * @return An `Observable` of type `SearchFriends`
    */
   search(search:string) : Observable<SearchFriends> {
-    return this.http.get<SearchFriends>('api/friends/search/'+search).pipe(
+    return this.http.get<SearchFriends>('friends/search/'+search).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -32,7 +32,7 @@ export class FriendsService {
    * @return An `Observable` of type `friend`
    */
   friendsDetails(username:string): Observable<Friend> {
-    return this.http.get<Friend>('api/friends/details/' + username).pipe(
+    return this.http.get<Friend>('friends/details/' + username).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -45,7 +45,7 @@ export class FriendsService {
    * @return An `Observable` of type `Response`
    */
   friendsUser(username:string) {
-    return this.http.get<Response>('api/friends/user/' + username).pipe(
+    return this.http.get<Response>('friends/user/' + username).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -57,7 +57,7 @@ export class FriendsService {
    * @return An `Observable` of type `FriendsChatPreview[]`
    */
   friendsChatPreview() : Observable<FriendsChatPreview[]> {
-    return this.http.get<FriendsChatPreview[]>('api/friends/chat/preview').pipe(
+    return this.http.get<FriendsChatPreview[]>('friends/chat/preview').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -69,7 +69,7 @@ export class FriendsService {
    * @return An `Observable` of type `FriendMessageCout[]`
    */
   friends() : Observable<FriendMessageCout[]> {
-    return this.http.get<FriendMessageCout[]>('api/friends').pipe(
+    return this.http.get<FriendMessageCout[]>('friends').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -81,7 +81,7 @@ export class FriendsService {
    * @return An `Observable` of type `FriendRequest[]`
    */
   friendsRequests() : Observable<FriendRequest[]> {
-    return this.http.get<FriendRequest[]>('api/friends/requests').pipe(
+    return this.http.get<FriendRequest[]>('friends/requests').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message)
       )
@@ -94,7 +94,7 @@ export class FriendsService {
    * @return An `Observable` of type `Response`
    */
   sendFriendRequest(username:string) : Observable<Response> {
-    return this.http.post<Response>('api/friends/requests/send', {'username':username}).pipe(
+    return this.http.post<Response>('friends/requests/send', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message)
       )
@@ -108,7 +108,7 @@ export class FriendsService {
    * @return AN `Observable` of type ``
    */
   acceptFriendRequest(username:string) : Observable<Response> {
-    return this.http.post<Response>('api/friends/requests/accept', {'username':username}).pipe(
+    return this.http.post<Response>('friends/requests/accept', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -121,7 +121,7 @@ export class FriendsService {
    * @return AN `Observable` of type `Response`
    */
   declineFriendRequest(username:string) : Observable<Response> {
-    return this.http.post<Response>('api/friends/requests/decline', {'username':username}).pipe(
+    return this.http.post<Response>('friends/requests/decline', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -134,7 +134,7 @@ export class FriendsService {
    * @return An `Observable` of type `Response`
    */
   unfriend(username:string) {
-    return this.http.post<Response>('api/friends/unfriend', {'username':username}).pipe(
+    return this.http.post<Response>('friends/unfriend', {'username':username}).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -146,7 +146,7 @@ export class FriendsService {
    * @param username Friend Username
    */
   friendLastSeen(username:string): Observable<{'last_seen':number}> {
-    return this.http.get<any>('api/friends/last/seen/' + username).pipe(
+    return this.http.get<any>('friends/last/seen/' + username).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message)) 
     )

@@ -26,7 +26,7 @@ export class AccountService {
    * @return An `Observable` of type `RegisterResponse`
    */
   register(data:Register) : Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>('api/register', data).pipe(
+    return this.http.post<RegisterResponse>('register', data).pipe(
       retry(2),
       delay(this.requestDelayTime),
       catchError((error:HttpErrorResponse) => throwError(error.message))
@@ -40,7 +40,7 @@ export class AccountService {
    * @rerturn An `Observable` of type `ApiResponse`
    */
   login(data:Login) : Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('api/login', data).pipe(
+    return this.http.post<LoginResponse>('login', data).pipe(
       retry(2),
       delay(this.requestDelayTime),
       catchError((error:HttpErrorResponse) => throwError(error.message))
@@ -53,7 +53,7 @@ export class AccountService {
    * @return An `Observable` of type `Authorization`
    */
   loggedin() : Observable<Authorization> {
-    return this.http.get<Authorization>('api/loggedin').pipe(
+    return this.http.get<Authorization>('loggedin').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -65,7 +65,7 @@ export class AccountService {
    * @return An `Observable` of type `Authorization`
    */
   loggedout() : Observable<Authorization> {
-    return this.http.get<Authorization>('api/loggedout').pipe(
+    return this.http.get<Authorization>('loggedout').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     );
@@ -77,7 +77,7 @@ export class AccountService {
    * @return An `Observable` of type `Any`
    */
   updateLastSeen() : Observable<any> {
-    return this.http.get<any>('api/update/last/seen').pipe(
+    return this.http.get<any>('update/last/seen').pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
@@ -90,7 +90,7 @@ export class AccountService {
    * @return An  `Observable` of type `Response`
    */
   uploadProfilePicture(form: FormData) : Observable<Response> {
-    return this.http.post<Response>('api/upload/profile/picture', form).pipe(
+    return this.http.post<Response>('upload/profile/picture', form).pipe(
       retry(2),
       catchError((error:HttpErrorResponse) => throwError(error.message))
     )
