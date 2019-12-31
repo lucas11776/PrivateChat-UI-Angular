@@ -10,8 +10,14 @@ export class DateService {
    */
   ONLINE_DELAY = 15; // 10s
 
+  /**
+   * Month of the year in order
+   */
   monthsOfYear = ['January','February','March','April','May','June','July','August','September','October','November', 'December'];
 
+  /**
+   * Day of the week in order
+   */
   dateOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
   constructor() { }

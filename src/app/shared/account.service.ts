@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, delay } from 'rxjs/operators';
 
-import { Register, RegisterResponse, Login, LoginResponse, Authorization } from '../model/account';
+import { Register, RegisterResponse, Login, LoginResponse, Authorization, Response } from '../model/account';
 
 @Injectable({
   providedIn: 'root'
@@ -84,9 +84,40 @@ export class AccountService {
   }
 
   /**
+   * Upload user profile picture
+   * 
+   * @param form `FormDate`
+   * @return An  `Observable` of type `Response`
+   */
+  uploadProfilePicture(form: FormData) : Observable<Response> {
+    return this.http.post<Response>('api/upload/profile/picture', form).pipe(
+      retry(2),
+      catchError((error:HttpErrorResponse) => throwError(error.message))
+    )
+  }
+
+  /**
+   * Get token from browser session window
+   * 
+   * @return `string`
+   */
+  getToken() {
+    return window.sessionStorage.getItem('token') ? window.sessionStorage.getItem('token') : false;
+  }
+
+  /**
+   * Set token in browser session window
+   * 
+   * @return `boolean`
+   */
+  setToken(token:string) {
+    return window.sessionStorage.setItem('token', token);
+  }
+
+  /**
    * Remove user token from browser session data
    * 
-   * @return 'NULL'
+   * @return `NULL`
    */
   clearToken() {
     window.sessionStorage.removeItem('token');

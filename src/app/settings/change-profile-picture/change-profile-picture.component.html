@@ -1,4 +1,4 @@
-<div class="ui dimmer">
+<div class="ui dimmer" *ngIf="uploading">
     <div class="ui text loader">Uploading Profile Picture...</div>
 </div>
 <div class="ui active dimmer" *ngIf="loading">
@@ -14,19 +14,30 @@
     <div class="item">
         <img class="ui small rounded-circle image mr-2 mb-3" style="max-width: 120px;"  [src]="account?.profile_picture">
         <div class="content pt-1">
-            <div class="input-group mb-1">
+            <form [formGroup]="form" 
+                  class="input-group mb-1"
+                  [ngClass]="{'is-invalid': !form.controls.picture.pristine && form.controls.picture.invalid}">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile02">
+                    <input type="file" 
+                           class="custom-file-input" 
+                           id="inputGroupFile02"
+                           (change)="selectFile($event.target.files[0])"
+                           formControlName="picture">
                     <label class="custom-file-label text-left" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">
-                        <i> <i class="picture icon"></i> Upload profile picture</i>
+                        <i> <i class="picture icon"></i> {{ file == null ? 'Upload profile picture' : file.name }}</i>
                     </label>
+                    <p class="invalid-feedback text-left">
+                        <span *ngIf="form.controls.picture.errors?.required">Picture is required.</span>
+                    </p>
                 </div>
                 <div class="input-group-append">
-                    <button class="input-group-text btn btn-info" id="inputGroupFileAddon02">
+                    <button class="input-group-text btn btn-info"
+                            id="inputGroupFileAddon02"
+                            (click)="uploadProfilePicture()">
                         <i class="cloud upload icon"></i> Upload
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

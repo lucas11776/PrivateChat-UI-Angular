@@ -31,3 +31,9 @@ export interface Notification {
     messages:number;
     
 }
+
+export interface Response {
+    status:boolean;
+    message:string;
+    data:[];
+}

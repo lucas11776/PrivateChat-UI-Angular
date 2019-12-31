@@ -124,7 +124,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Unfriend friend
+   * Unfriend `friend`
    */
   unfriend() {
     const SUBSCRIPTION = this.friendServ.unfriend(this.friend)

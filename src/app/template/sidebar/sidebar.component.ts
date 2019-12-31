@@ -60,14 +60,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
   loggedIn() {
     this.loggedinSubscription = this.accountServ.loggedin().pipe(
       expand((_) => timer(this.requestTime).pipe(
-        concatMap((_) => this.accountServ.loggedin())
+        concatMap((_) => {
+          var req = null;
+          return this.accountServ.loggedin()
+        })
       ))
     ).subscribe(
       response => {
         this.loggedin = response.status;
       },
       error => {
-        this.loggedIn();
+        // recall loggedin if error occurs after 10s
+        const TIMEOUT = setTimeout(() => {
+          // check if user token is stored
+          if(this.accountServ.getToken()) {
+            this.ngOnInit();
+          }
+          clearTimeout(TIMEOUT);
+        }, 10000);
+        console.warn('Sidebar Componet (Loggedin) : ', error);
       }
     )
   }
@@ -85,6 +96,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
           }
         }
         this.notification = response;
+      },
+      (error) => {
+        // recall getNotification if error occurs after 10s
+        const TIMEOUT = setTimeout(() => {
+          // check if token is stored
+          if(this.accountServ.getToken()) {
+            this.getNotification();
+          }
+          clearTimeout(TIMEOUT);
+        }, 10000);
+        console.log('Sidebar Component (getNotifications) : ', error);
       }
     )
   }

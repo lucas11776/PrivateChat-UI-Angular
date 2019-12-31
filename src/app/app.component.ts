@@ -13,7 +13,7 @@ import { AccountService } from './shared/account.service';
 export class AppComponent implements OnInit,OnDestroy {
 
   lastSeenSubscription:Subscription;
-  lastSeenUpdateTime = 1000;
+  lastSeenUpdateTime = 5000;
   count = 1;
 
   constructor(
@@ -23,13 +23,16 @@ export class AppComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.lastSeenSubscription = this.accountServ.updateLastSeen().pipe(
       expand((_) => timer(this.lastSeenUpdateTime).pipe(
-        concatMap((_) => this.accountServ.updateLastSeen())
+        concatMap((_) => 
+        this.accountServ.updateLastSeen()
+        )
       ))
     ).subscribe(
       (response) => { },
       (error) => {
         const TIME_OUT = setTimeout(() => {
           this.ngOnInit();
+          clearTimeout(TIME_OUT);
         }, 3500);
       }
     )

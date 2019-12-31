@@ -1,7 +1,7 @@
   import { Component, OnInit, OnDestroy } from '@angular/core';
   import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
-  import { Observable, Subscription, timer } from 'rxjs';
-  import { concatMap, map, expand, mergeMap } from 'rxjs/operators';
+  import { Subscription, timer, Subject } from 'rxjs';
+  import { concatMap, expand, takeUntil, map } from 'rxjs/operators';
 
   import { ChatsService } from '../../shared/chats.service';
   import { Chat, ChatsResponse } from '../../model/chats';
@@ -77,8 +77,15 @@
               }
               this.loading = false;
             }
+          },
+          (error) => {
+            this.loading = false;
           }
         );
+    }
+
+    getNewChats() {
+
     }
 
     /**
