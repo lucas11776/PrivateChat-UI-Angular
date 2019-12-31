@@ -5,7 +5,7 @@
     </div>
     <div class="user_info">
         <span>Chat with <span class="text-capitalize">{{ friend }}</span></span>
-        <p *ngIf="friend">{{ friendLastSeen | lastSeen }}</p>
+        <p *ngIf="friend">{{ lastSeen() }}</p>
     </div>
     <div class="video_cam d-none">
         <span><i class="video icon"></i></span>

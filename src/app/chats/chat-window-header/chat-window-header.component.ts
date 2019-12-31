@@ -26,6 +26,7 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
   lastSeenSubscription:Subscription;
   friendsDetailSubscription:Subscription;
   friendLastSeen:number;
+  lastSeenString:string;
   friendsDetails:Friend;
   requestTime = 2500;
   friend:string;
@@ -42,18 +43,20 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
     this.friend = this.activatedRoute.snapshot.params.username;
     // listen end of router change event (initialize data)
     this.router.events.subscribe((event:NavigationEnd) => {
-      if(event instanceof NavigationStart) {
-        this.friend = null;
-        this.friendLastSeen = null;
-        this.ngOnDestroy();
-      }
-      if(event instanceof NavigationEnd) {
-        const timeOut = setTimeout(() => {
-          this.friend = this.activatedRoute.snapshot.params.username;
-          this.ngOnInit();
-          clearTimeout(timeOut);
-        }, 750); 
-      }
+      this.friend = this.activatedRoute.snapshot.params.username;
+      // router change event
+      this.router.events.subscribe((event) => {
+        if(event instanceof NavigationStart) {
+          this.ngOnDestroy();
+        }
+        if(event instanceof NavigationEnd) {
+          const CURRENT_URL = '/' + activatedRoute.snapshot.url[0].path + '/' + this.activatedRoute.snapshot.params.username;
+          if(router.url == CURRENT_URL) {
+            this.friend = this.activatedRoute.snapshot.params.username;
+            this.ngOnInit();
+          }
+        }
+      });
     });
   }
 
@@ -65,7 +68,6 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
       this.getFriendsDetails();
       this.getLastSeen();
     }
-    
   }
 
   /**
@@ -87,7 +89,9 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
         concatMap((_) => this.friendServ.friendLastSeen(this.friend))
       ))
     ).subscribe(
-      (response) => this.friendLastSeen = response.last_seen,
+      (response) => {
+        this.friendLastSeen = response.last_seen;
+      },
       (error) => this.getLastSeen()
     )
   }
@@ -109,8 +113,8 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
   /**
    * Convert user last seen to reable date
    */
-  lastSeen(timestamp:number) {
-    return this.date.lastSeen(timestamp);
+  lastSeen() {
+    return this.date.lastSeen(this.friendLastSeen);
   }
 
   /**
@@ -186,6 +190,8 @@ export class ChatWindowHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.friend = null;
+    this.lastSeen = null;
     if(this.friendsDetailSubscription) this.friendsDetailSubscription.unsubscribe();
     if(this.lastSeenSubscription) this.lastSeenSubscription.unsubscribe();
   }

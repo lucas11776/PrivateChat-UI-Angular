@@ -77,16 +77,9 @@
             return null; 
           })
         )
-        // .pipe(
-        //   expand((_) => timer(500).pipe(
-        //     concatMap((_) => this.chatServ.newChats(this.friend, this.getLastChatId(this.chats)))
-        //   ))
-        // )
         .subscribe(
           (response) => {
-            if(response != null) {
-              this.loadResponse(response);
-            }
+            if(response != null) this.loadResponse(response);
             this.loading = false;
           },
           (error) => {
@@ -141,9 +134,7 @@
       var chat_id:number = 0;
       if(typeof(chats) == 'object') {
         var len = chats.length;
-        if(len > 0) {
-          chat_id = chats[chats.length-1].chat_id;
-        }
+        if(len > 0) chat_id = chats[chats.length-1].chat_id;
       }
       return chat_id;
     }
@@ -213,9 +204,7 @@
      * @param $event 
      */
     newChatWindow($event:string) {
-      if(this.friend != $event) {
-        this.getChats();
-      }
+      if(this.friend != $event) this.getChats();
     } 
 
     /**
@@ -229,12 +218,8 @@
       this.chats = [];
       this.friend = null;
       this.user = null;
-      if(this.getNewChatsSubscription) {
-        this.getNewChatsSubscription.unsubscribe();
-      }
-      if(this.getChatsSubscription) {
-        this.getChatsSubscription.unsubscribe();
-      }
+      if(this.getNewChatsSubscription) this.getNewChatsSubscription.unsubscribe();
+      if(this.getChatsSubscription) this.getChatsSubscription.unsubscribe();
     }
 
   }
