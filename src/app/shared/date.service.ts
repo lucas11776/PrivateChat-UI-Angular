@@ -50,8 +50,6 @@ export class DateService {
       return 'Online';
     }
 
-
-    console.log("Time");
     // Minute
     if(LAST_SEEN_SECONDS < 60) {
       return 'last seen ' + LAST_SEEN_SECONDS + (LAST_SEEN_SECONDS == 1 ? ' second ' : ' seconds ') + ' ago.';

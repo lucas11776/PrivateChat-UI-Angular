@@ -1,12 +1,12 @@
 <!-- Sidebar -->
-<nav class="ui inverted labeled icon left inline vertical sidebar menu uncover visible" id="sidebar">
+<nav class="ui inverted labeled icon inline sidebar menu uncover visible left vertical" id="sidebar" *ngIf="!smallScreen">
     <a class="item" [routerLink]="['home']" [routerLinkActive]="['active']">
         <i class="home icon"></i> Home
     </a>
     <a class="item" *ngIf="loggedin" [routerLink]="['chats']" [routerLinkActive]="['active']">
         <i class="chat icon" *ngIf="notification?.chats">
             <i class="ui circular teal label" *ngIf="notification?.chats > 0">{{ notification?.chats }}</i>
-        </i> Chats 
+        </i> Chats
     </a>
     <a class="item" *ngIf="loggedin" [routerLink]="['friends']" [routerLinkActive]="['active']">
         <i class="users icon" *ngIf="notification?.friends">
@@ -34,3 +34,43 @@
         <i class="delete icon"></i> Logout
     </a>
 </nav>
+
+<!-- Menu -->
+<div class="ui top attached" *ngIf="smallScreen">
+    <div class="ui top attached menu inverted" style="border-radius: 0;">
+        <div class="ui dropdown icon item active visible inverted" tabindex="0">
+            <i class="sidebar icon" (click)="dropDown()"></i>
+            <div class="menu transition" tabindex="-1" style="z-index: 10000;" [ngClass]="{'visible': showDropDown}">
+                <a class="item" [routerLink]="['home']" [routerLinkActive]="['active']">
+                    <i class="home icon"></i> Home
+                </a>
+                <a class="item" *ngIf="loggedin" [routerLink]="['chats']" [routerLinkActive]="['active']">
+                    <i class="chat icon" *ngIf="notification?.chats"></i> Chats <i *ngIf="notification?.chats > 0">({{ notification?.chats }})</i>
+                </a>
+                <a class="item" *ngIf="loggedin" [routerLink]="['friends']" [routerLinkActive]="['active']">
+                    <i class="users icon" *ngIf="notification?.friends"></i> Friends <i *ngIf="notification?.friends > 0">({{ notification?.friends }})</i>
+                </a>
+                <a class="item" *ngIf="loggedin" [routerLink]="['requests']" [routerLinkActive]="['active']">
+                    <i class="smile icon"></i> Requests <i *ngIf="notification?.requests > 0">({{ notification?.requests }} )</i>
+                </a>
+                <a class="item" *ngIf="loggedin" [routerLink]="['search']" [routerLinkActive]="['active']">
+                    <i class="search icon"></i> Search
+                </a>
+                <a class="item" *ngIf="!loggedin" [routerLink]="['login']" [routerLinkActive]="['active']">
+                    <i class="user icon"></i> Login
+                </a>
+                <a class="item" *ngIf="!loggedin" [routerLink]="['register']" [routerLinkActive]="['active']">
+                    <i class="signup icon"></i> Register
+                </a>
+            </div>
+        </div>
+        <div class="right menu">
+            <a class="item" *ngIf="loggedin" [routerLink]="['settings']" [routerLinkActive]="['active']">
+                <i class="cogs icon"></i>
+            </a>
+            <a class="item" *ngIf="loggedin" (click)="logout()">
+                <i class="log out icon"></i>
+            </a>
+        </div>
+    </div>
+</div>

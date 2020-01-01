@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { expand, concatMap } from 'rxjs/operators';
@@ -15,13 +15,15 @@ declare var $ : any;
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public loggedin:boolean;
   public notification:Notification;
   loggedinSubscription:Subscription;
   notificationSubscription:Subscription;
   requestTime = 2500; // miliseconds
+  smallScreen:boolean = false;
+  showDropDown:boolean = false;
 
   constructor(
     private accountServ: AccountService,
@@ -32,7 +34,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   windowEvent(event: FocusEvent) : void {
-    this.replaceSidebarSpace();
+    this.screenResize();
   }
 
   /**
@@ -41,8 +43,33 @@ export class SidebarComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.loggedIn();
-    this.replaceSidebarSpace();
     this.getNotification();
+  }
+
+  ngAfterViewInit() {
+    this.screenResize();
+  }
+
+  /**
+   * Toggle small screen drop down
+   */
+  dropDown() {
+    this.showDropDown = !this.showDropDown;
+  }
+
+  /**
+   * Check if divice screen is less then 500px
+   */
+  screenResize() {
+    const WIDTH = $('body').width();
+
+    if(WIDTH > 500) {
+      this.smallScreen = false;
+      this.replaceSidebarSpace();
+    } else {
+      $("body").css({"paddingLeft": 0});
+      this.smallScreen = true;
+    }
   }
 
   /**

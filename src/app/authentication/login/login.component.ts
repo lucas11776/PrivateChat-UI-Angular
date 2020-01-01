@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response) => {
           if(response.status) {
+            this.form.reset();
             window.sessionStorage.setItem('token', response.data.token);
             location.replace('');
           }

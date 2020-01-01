@@ -1,2 +1,9 @@
 <router-outlet name="sidebar"></router-outlet>
-<router-outlet></router-outlet>
+<div [ngClass]="{'d-none': routeChange}">
+    <router-outlet></router-outlet>
+</div>
+<div [ngClass]="{'d-none': !routeChange}">
+    <div class="ui active dimmer route-change">
+        <div class="ui text loader">Loading Page...</div>
+    </div>
+</div>
