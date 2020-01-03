@@ -21,11 +21,10 @@
     total:number;
     loading:boolean;
     getChatsSubscription:Subscription;
-    getNewChatsSubscription:Subscription;
     routeSubscription:Subscription;
     chats:Chat[] = [];
     limit = 30;
-    requestTime = 500; // Get new chats time (0.5s)
+    requestTime = 1000; // Get new chats time (0.5s)
 
     /**
      * Listen to route change and call ngOnInit to initialize new data
@@ -86,29 +85,6 @@
             this.loading = false;
           }
         );
-    }
-
-    /**
-     * Get new chats every
-     */
-    getNewChats() {
-      this.getNewChatsSubscription = timer(this.requestTime).subscribe(() => {
-        if(this.friend != null) {
-          const SUBSCRIPTION = this.chatServ.newChats(this.friend, this.getLastChatId(this.chats))
-            .subscribe(
-              (response) => {
-                this.loadResponse(response);
-                SUBSCRIPTION.unsubscribe();
-              },
-              (error) => {
-                const TIMEOUT = setTimeout(() => {
-                  this.getNewChats();
-                  clearTimeout(TIMEOUT);
-                }, 10000);
-              }
-            )
-        } 
-      });
     }
 
     /**
@@ -218,7 +194,6 @@
       this.chats = [];
       this.friend = null;
       this.user = null;
-      if(this.getNewChatsSubscription) this.getNewChatsSubscription.unsubscribe();
       if(this.getChatsSubscription) this.getChatsSubscription.unsubscribe();
     }
 

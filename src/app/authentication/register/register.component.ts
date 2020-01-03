@@ -4,7 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AccountService } from '../../shared/account.service';
-
+import { ValidatePassword } from '../../validators/passwordMatch';
 import { RegisterResponse } from 'src/app/model/account';
 
 @Component({
@@ -35,7 +35,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
       'username': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       'email': ['', [Validators.required, Validators.email]],
       'password': ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
-      'confirm_password': ['', [Validators.required]]
+      'confirm_password': ['', [Validators.required]],
+    }, {
+      validator: ValidatePassword.MatchPassword
     });
   }
 

@@ -76,6 +76,7 @@
                         aria-describedby="defaultformPhoneHelpBlock">
                 <p class="invalid-feedback text-left">
                     <span *ngIf="form.controls.confirm_password.errors?.required">Please confirm your password.</span>
+                    <span *ngIf="form.controls.confirm_password.errors?.matchPassword">Confirm password does not match pasword..</span>
                 </p>
                 <small id="defaultformPhoneHelpBlock" class="form-text text-muted mb-4 text-left">
                     Please repeat your password.

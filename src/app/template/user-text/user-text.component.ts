@@ -33,7 +33,7 @@ export class UserTextComponent implements OnInit, OnDestroy {
         if(response.status == false) {
           this.suiModalServ
             .open(new InfoModal('Something went wrong try again.', response.message))
-            .onDeny(() => {})
+            .onDeny(() => this.delete.emit(this.chat.chat_id))
           return;
         }
         this.delete.emit(this.chat.chat_id);
